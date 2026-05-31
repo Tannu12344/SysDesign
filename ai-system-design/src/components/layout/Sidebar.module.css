@@ -1,0 +1,122 @@
+.sidebar {
+  width: 220px;
+  min-width: 220px;
+  background: var(--bg-surface);
+  border-right: 0.5px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0 16px;
+  overflow: hidden;
+}
+
+.logo {
+  padding: 0 18px 18px;
+  border-bottom: 0.5px solid var(--border-subtle);
+  margin-bottom: 16px;
+}
+
+.logoMark {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-3);
+  text-transform: uppercase;
+}
+
+.logoSub {
+  font-size: 11px;
+  color: var(--text-faint);
+  margin-top: 2px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px;
+  flex: 1;
+}
+
+.navLabel {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  padding: 0 10px;
+  margin-bottom: 4px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  background: none;
+  border-radius: var(--radius-md);
+  border-left: 2px solid transparent;
+  transition: all 0.15s ease;
+  text-align: left;
+  width: 100%;
+}
+
+.navItem:hover {
+  color: var(--text-secondary);
+  background: var(--bg-hover);
+}
+
+.navItem.active {
+  color: var(--accent-3);
+  background: var(--accent-bg);
+  border-left-color: var(--accent-1);
+}
+
+.navItem i {
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.historyPanel {
+  margin-top: auto;
+  padding: 14px 18px 0;
+  border-top: 0.5px solid var(--border-subtle);
+}
+
+.historyLabel {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.historyEmpty {
+  font-size: 11px;
+  color: var(--text-faint);
+}
+
+.historyItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-faint);
+  background: none;
+  width: 100%;
+  text-align: left;
+  padding: 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s;
+}
+
+.historyItem:hover {
+  color: var(--accent-2);
+}
+
+.historyItem i {
+  font-size: 11px;
+  flex-shrink: 0;
+}

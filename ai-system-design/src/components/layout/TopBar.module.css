@@ -1,0 +1,135 @@
+.wrapper {
+  border-bottom: 0.5px solid var(--border-subtle);
+  background: var(--bg-base);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 24px;
+}
+
+.searchWrap {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchWrap > i {
+  position: absolute;
+  left: 14px;
+  color: var(--text-faint);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-md);
+  padding: 10px 70px 10px 42px;
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: border-color 0.15s;
+}
+
+.searchInput::placeholder {
+  color: var(--text-faint);
+}
+
+.searchInput:focus {
+  border-color: var(--accent-2);
+}
+
+.searchInput:disabled {
+  opacity: 0.5;
+}
+
+.kbd {
+  position: absolute;
+  right: 12px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-faint);
+  background: var(--bg-elevated);
+  border: 0.5px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 2px 6px;
+  pointer-events: none;
+}
+
+.genBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent-2);
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #e8d8ff;
+  white-space: nowrap;
+  transition: background 0.15s, opacity 0.15s;
+}
+
+.genBtn:hover:not(:disabled) {
+  background: var(--accent-1);
+}
+
+.genBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.genBtn i {
+  font-size: 14px;
+}
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(232, 216, 255, 0.3);
+  border-top-color: #e8d8ff;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.chips {
+  display: flex;
+  gap: 6px;
+  padding: 8px 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chips::-webkit-scrollbar { display: none; }
+
+.chip {
+  background: var(--bg-elevated);
+  border: 0.5px solid var(--border-mid);
+  border-radius: 20px;
+  padding: 4px 13px;
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.chip:hover:not(:disabled) {
+  border-color: var(--accent-2);
+  color: var(--accent-3);
+  background: var(--accent-bg);
+}
+
+.chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
