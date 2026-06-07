@@ -3,7 +3,7 @@ import Sidebar from './components/layout/Sidebar'
 import TopBar from './components/layout/TopBar'
 import EmptyState from './components/explorer/EmptyState'
 import LoadingState from './components/explorer/LoadingState'
-import ArchitectureReport from './components/explorer/ArchitectureReport'
+import DeepExplorer from './components/tabs/DeepExplorer'
 import ErrorBanner from './components/ui/ErrorBanner'
 import PlaceholderPage from './components/ui/PlaceholderPage'
 import { useClaudeAPI } from './hooks/useClaudeAPI'
@@ -30,12 +30,9 @@ export default function App() {
   const handleGenerate = useCallback(async () => {
     const q = query.trim()
     if (!q || loading) return
-
     setLastQuery(q)
     setAppState('loading')
-
     const result = await generate(`Generate system design report for: ${q}`)
-
     if (result) {
       setReport(result)
       setAppState('success')
@@ -52,16 +49,13 @@ export default function App() {
     setActivePage('architecture')
   }, [])
 
-  const handleCopyReport = useCallback(() => {
+  const handleCopyOverview = useCallback(() => {
     if (!report) return
-    const md = buildMarkdown(report)
-    navigator.clipboard.writeText(md).catch(() => {})
+    navigator.clipboard.writeText(buildMarkdown(report)).catch(() => {})
   }, [report])
 
   const renderMainContent = () => {
-    if (activePage !== 'architecture') {
-      return renderPlaceholder(activePage)
-    }
+    if (activePage !== 'architecture') return renderPlaceholder(activePage)
 
     switch (appState) {
       case 'idle':
@@ -72,7 +66,7 @@ export default function App() {
         return <ErrorBanner message={error || 'Unknown error'} onRetry={handleGenerate} />
       case 'success':
         return report
-          ? <ArchitectureReport report={report} onCopy={handleCopyReport} />
+          ? <DeepExplorer report={report} onCopy={handleCopyOverview} />
           : <EmptyState />
     }
   }
@@ -108,78 +102,51 @@ function renderPlaceholder(page: NavPage) {
     interview: {
       icon: 'ti-help-circle',
       title: 'Interview Mode',
-      description: 'Generate level-specific interview questions, follow-ups, tradeoffs, and expected answers for any product or system.',
+      description: 'Generate level-specific interview questions, follow-ups, tradeoffs, and expected answers for any product.',
       phase: 'Coming in Phase 3',
     },
     revision: {
       icon: 'ti-book',
       title: 'Revision Mode',
-      description: 'Get 5-minute, 15-minute, and 30-minute revision cheat sheets. Perfect for the morning before your interview.',
+      description: 'Get 5-minute, 15-minute, and 30-minute revision cheat sheets for your interview.',
       phase: 'Coming in Phase 3',
     },
     compare: {
       icon: 'ti-arrows-diff',
       title: 'Compare Systems',
-      description: 'Side-by-side comparisons — Kafka vs RabbitMQ, SQL vs NoSQL, Monolith vs Microservices, REST vs GraphQL.',
+      description: 'Side-by-side: Kafka vs RabbitMQ, SQL vs NoSQL, Monolith vs Microservices, REST vs GraphQL.',
       phase: 'Coming in Phase 4',
     },
     custom: {
       icon: 'ti-pencil',
       title: 'Custom Design',
-      description: 'Describe your system in plain English and get a complete architecture, services, database design, and interview questions.',
+      description: 'Describe your system in plain English and get a full architecture with all 10 deep-dive tabs.',
       phase: 'Coming in Phase 4',
     },
     history: {
       icon: 'ti-clock',
       title: 'History',
-      description: 'Your last 20 generated reports are saved locally. Click any item in the sidebar to reload it instantly.',
-      phase: 'Available now via sidebar',
+      description: 'Your last 20 generated reports are saved locally. Click any item in the sidebar to reload.',
+      phase: 'Available via sidebar',
     },
     saved: {
       icon: 'ti-bookmark',
       title: 'Saved Reports',
-      description: 'Pin your most important architecture reports for quick access. Export them as Markdown or PDF.',
+      description: 'Pin important architecture reports and export them as Markdown.',
       phase: 'Coming in Phase 5',
     },
     settings: {
       icon: 'ti-settings',
       title: 'Settings',
-      description: 'Configure your API key, default experience level for interview mode, theme, and export preferences.',
+      description: 'Configure your API key, default level for interview mode, theme, and export preferences.',
       phase: 'Coming in Phase 5',
     },
   }
-
   const config = pages[page]
   if (!config.title) return null
-
-  return (
-    <PlaceholderPage
-      icon={config.icon}
-      title={config.title}
-      description={config.description}
-      phase={config.phase}
-    />
-  )
+  return <PlaceholderPage icon={config.icon} title={config.title} description={config.description} phase={config.phase} />
 }
 
 function buildMarkdown(r: Report): string {
-  return `# ${r.product} — System Design Report
-
-## Overview
-${r.overview}
-
-## Functional Requirements
-${r.functionalRequirements.map(req => `- ${req}`).join('\n')}
-
-## Non-Functional Requirements
-${r.nonFunctionalRequirements.map(req => `- ${req}`).join('\n')}
-
-## Service Architecture
-${r.services.map(s => `### ${s.name} (${s.type})
-${s.responsibility}
-**Stack:** ${s.techStack}`).join('\n\n')}
-
-## Infrastructure
-${r.infrastructure}
-`
+  return `# ${r.product} — System Design Report\n\n## Overview\n${r.overview}\n\n## Functional Requirements\n${r.functionalRequirements.map(req => `- ${req}`).join('\n')}\n\n## Non-Functional Requirements\n${r.nonFunctionalRequirements.map(req => `- ${req}`).join('\n')}\n\n## Services\n${r.services.map(s => `### ${s.name} (${s.type})\n${s.responsibility}\n**Stack:** ${s.techStack}`).join('\n\n')}\n\n## Infrastructure\n${r.infrastructure}\n`
 }
