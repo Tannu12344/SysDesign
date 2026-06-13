@@ -1,0 +1,211 @@
+.wrap {
+  padding: 28px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.product {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+}
+
+.durationBadge {
+  background: var(--accent-bg);
+  border: 0.5px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  padding: 3px 10px;
+  font-size: 11px;
+  color: var(--accent-3);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.actions { display: flex; gap: 8px; flex-shrink: 0; }
+
+.actionBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-md);
+  padding: 6px 13px;
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.actionBtn:hover { color: var(--text-primary); border-color: var(--border-strong); }
+.actionBtn i { font-size: 14px; }
+
+.oneLiner {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  padding-bottom: 18px;
+  border-bottom: 0.5px solid var(--border-subtle);
+}
+
+.section { margin-bottom: 22px; }
+
+.sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.sectionTitle::after {
+  content: '';
+  flex: 1;
+  height: 0.5px;
+  background: var(--border-subtle);
+}
+
+.sectionTitle i { font-size: 14px; }
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.list li {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.6;
+}
+
+.list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--accent-border);
+}
+
+.serviceGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 8px;
+}
+
+.serviceChip {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+}
+
+.serviceName {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--accent-3);
+  margin-bottom: 3px;
+}
+
+.serviceNote {
+  font-size: 11.5px;
+  color: var(--text-faint);
+  line-height: 1.5;
+}
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.choiceCard {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 14px;
+}
+
+.choiceLabel {
+  font-size: 10px;
+  color: var(--text-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+
+.choiceValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+}
+
+.choiceReason {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.qaCard {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-subtle);
+  border-left: 2px solid var(--accent-2);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.qaQ {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--accent-3);
+  margin-bottom: 4px;
+}
+
+.qaA {
+  font-size: 12.5px;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.takeawaysCard {
+  background: var(--accent-bg);
+  border: 0.5px solid var(--accent-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+}
+
+/* ─── Print styles ─────────────────────────────────────────────────────────── */
+@media print {
+  .wrap {
+    padding: 0;
+    color: #000;
+    background: #fff;
+  }
+  .actions { display: none; }
+  .product, .oneLiner, .sectionTitle, .list li, .serviceName,
+  .serviceNote, .choiceValue, .choiceReason, .qaQ, .qaA {
+    color: #000 !important;
+  }
+  .sectionTitle::after { background: #ccc; }
+  .serviceChip, .choiceCard, .qaCard, .takeawaysCard {
+    background: #fff !important;
+    border-color: #ccc !important;
+    break-inside: avoid;
+  }
+  .section { break-inside: avoid; }
+}

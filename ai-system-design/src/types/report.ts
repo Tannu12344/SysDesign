@@ -228,3 +228,44 @@ export type TabData =
   | DecisionsReport
 
 export type TabCache = Partial<Record<TabId, TabData>>
+
+// ─── Phase 3: Interview Mode ──────────────────────────────────────────────────
+
+export type ExperienceLevel = 'Junior' | 'Mid' | 'Senior' | 'Staff'
+
+export interface InterviewQuestion {
+  question: string
+  difficulty: 'Easy' | 'Medium' | 'Hard'
+  category: string
+  followUps: string[]
+  answerFramework: string[]
+}
+
+export interface InterviewReport {
+  product: string
+  level: ExperienceLevel
+  focusAreas: string[]
+  questions: InterviewQuestion[]
+  tradeoffQuestions: { question: string; framework: string }[]
+  commonMistakes: string[]
+  behavioralPoints: string[]
+}
+
+// ─── Phase 3: Revision Mode ───────────────────────────────────────────────────
+
+export type RevisionDuration = '5' | '15' | '30'
+
+export interface RevisionReport {
+  product: string
+  duration: RevisionDuration
+  oneLiner: string
+  coreDecisions: string[]
+  keyServices: { name: string; note: string }[]
+  databaseChoice: { choice: string; reason: string }
+  cachingChoice: { choice: string; reason: string }
+  messagingChoice: { choice: string; reason: string }
+  scalingStrategies: string[]
+  apiHighlights: string[]
+  likelyQuestions: { question: string; answer: string }[]
+  finalTakeaways: string[]
+}

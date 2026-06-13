@@ -4,6 +4,8 @@ import TopBar from './components/layout/TopBar'
 import EmptyState from './components/explorer/EmptyState'
 import LoadingState from './components/explorer/LoadingState'
 import DeepExplorer from './components/tabs/DeepExplorer'
+import InterviewMode from './components/interview/InterviewMode'
+import RevisionMode from './components/revision/RevisionMode'
 import ErrorBanner from './components/ui/ErrorBanner'
 import PlaceholderPage from './components/ui/PlaceholderPage'
 import { useClaudeAPI } from './hooks/useClaudeAPI'
@@ -55,6 +57,8 @@ export default function App() {
   }, [report])
 
   const renderMainContent = () => {
+    if (activePage === 'interview') return <InterviewMode />
+    if (activePage === 'revision') return <RevisionMode />
     if (activePage !== 'architecture') return renderPlaceholder(activePage)
 
     switch (appState) {
@@ -99,18 +103,8 @@ export default function App() {
 function renderPlaceholder(page: NavPage) {
   const pages: Record<NavPage, { icon: string; title: string; description: string; phase: string }> = {
     architecture: { icon: '', title: '', description: '', phase: '' },
-    interview: {
-      icon: 'ti-help-circle',
-      title: 'Interview Mode',
-      description: 'Generate level-specific interview questions, follow-ups, tradeoffs, and expected answers for any product.',
-      phase: 'Coming in Phase 3',
-    },
-    revision: {
-      icon: 'ti-book',
-      title: 'Revision Mode',
-      description: 'Get 5-minute, 15-minute, and 30-minute revision cheat sheets for your interview.',
-      phase: 'Coming in Phase 3',
-    },
+    interview: { icon: '', title: '', description: '', phase: '' },
+    revision: { icon: '', title: '', description: '', phase: '' },
     compare: {
       icon: 'ti-arrows-diff',
       title: 'Compare Systems',
