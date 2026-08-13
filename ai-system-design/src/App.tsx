@@ -6,6 +6,8 @@ import LoadingState from './components/explorer/LoadingState'
 import DeepExplorer from './components/tabs/DeepExplorer'
 import InterviewMode from './components/interview/InterviewMode'
 import RevisionMode from './components/revision/RevisionMode'
+import CompareMode from './components/compare/CompareMode'
+import CustomMode from './components/custom/CustomMode'
 import ErrorBanner from './components/ui/ErrorBanner'
 import PlaceholderPage from './components/ui/PlaceholderPage'
 import { useClaudeAPI } from './hooks/useClaudeAPI'
@@ -58,20 +60,16 @@ export default function App() {
 
   const renderMainContent = () => {
     if (activePage === 'interview') return <InterviewMode />
-    if (activePage === 'revision') return <RevisionMode />
+    if (activePage === 'revision')  return <RevisionMode />
+    if (activePage === 'compare')   return <CompareMode />
+    if (activePage === 'custom')    return <CustomMode />
     if (activePage !== 'architecture') return renderPlaceholder(activePage)
 
     switch (appState) {
-      case 'idle':
-        return <EmptyState />
-      case 'loading':
-        return <LoadingState message={loadingMsg} product={lastQuery} />
-      case 'error':
-        return <ErrorBanner message={error || 'Unknown error'} onRetry={handleGenerate} />
-      case 'success':
-        return report
-          ? <DeepExplorer report={report} onCopy={handleCopyOverview} />
-          : <EmptyState />
+      case 'idle':    return <EmptyState />
+      case 'loading': return <LoadingState message={loadingMsg} product={lastQuery} />
+      case 'error':   return <ErrorBanner message={error || 'Unknown error'} onRetry={handleGenerate} />
+      case 'success': return report ? <DeepExplorer report={report} onCopy={handleCopyOverview} /> : <EmptyState />
     }
   }
 
@@ -103,20 +101,10 @@ export default function App() {
 function renderPlaceholder(page: NavPage) {
   const pages: Record<NavPage, { icon: string; title: string; description: string; phase: string }> = {
     architecture: { icon: '', title: '', description: '', phase: '' },
-    interview: { icon: '', title: '', description: '', phase: '' },
-    revision: { icon: '', title: '', description: '', phase: '' },
-    compare: {
-      icon: 'ti-arrows-diff',
-      title: 'Compare Systems',
-      description: 'Side-by-side: Kafka vs RabbitMQ, SQL vs NoSQL, Monolith vs Microservices, REST vs GraphQL.',
-      phase: 'Coming in Phase 4',
-    },
-    custom: {
-      icon: 'ti-pencil',
-      title: 'Custom Design',
-      description: 'Describe your system in plain English and get a full architecture with all 10 deep-dive tabs.',
-      phase: 'Coming in Phase 4',
-    },
+    interview:    { icon: '', title: '', description: '', phase: '' },
+    revision:     { icon: '', title: '', description: '', phase: '' },
+    compare:      { icon: '', title: '', description: '', phase: '' },
+    custom:       { icon: '', title: '', description: '', phase: '' },
     history: {
       icon: 'ti-clock',
       title: 'History',
@@ -132,7 +120,7 @@ function renderPlaceholder(page: NavPage) {
     settings: {
       icon: 'ti-settings',
       title: 'Settings',
-      description: 'Configure your API key, default level for interview mode, theme, and export preferences.',
+      description: 'Configure your API key, theme, and export preferences.',
       phase: 'Coming in Phase 5',
     },
   }

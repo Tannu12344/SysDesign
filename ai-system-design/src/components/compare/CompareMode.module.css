@@ -1,0 +1,65 @@
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 14px;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-bg);
+  border-top-color: var(--accent-1);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loadingTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: -0.02em;
+}
+
+.loadingMsg {
+  font-size: 12px;
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.errorWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 12px;
+  padding: 40px;
+  text-align: center;
+}
+
+.errorWrap i { font-size: 32px; color: #a05050; }
+.errorWrap div { font-size: 13px; color: #7a4a4a; font-family: var(--font-mono); max-width: 400px; }
+
+.errorWrap button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #2a1515;
+  border: 0.5px solid #5a2a2a;
+  border-radius: var(--radius-md);
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #c06060;
+  transition: all 0.15s;
+}
+
+.errorWrap button:hover { background: #3a1a1a; }
+.errorWrap button i { font-size: 14px; }
