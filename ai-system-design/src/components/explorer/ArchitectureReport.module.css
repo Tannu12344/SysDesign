@@ -13,6 +13,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+
   gap: 24px;
 
   margin-bottom: 28px;
@@ -43,6 +44,8 @@
   line-height: 1.55;
 
   color: var(--text-muted);
+
+  overflow-wrap: anywhere;
 }
 
 .actions {
@@ -64,6 +67,7 @@
   align-items: center;
 
   min-height: 28px;
+  max-width: 100%;
 
   padding: 4px 10px;
 
@@ -79,6 +83,9 @@
   font-weight: 500;
 
   white-space: nowrap;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* =========================================================
@@ -89,6 +96,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+
+  flex-shrink: 0;
 
   gap: 6px;
 
@@ -119,7 +128,9 @@
 
 .copyBtn:hover {
   color: var(--text-primary);
+
   background: var(--bg-elevated);
+
   border-color: var(--border-strong);
 }
 
@@ -154,6 +165,8 @@
 
   gap: 8px;
 
+  min-width: 0;
+
   margin-bottom: 14px;
 
   font-size: 11px;
@@ -171,6 +184,8 @@
 
   flex: 1;
 
+  min-width: 20px;
+
   height: 1px;
 
   background: var(--border-subtle);
@@ -178,6 +193,7 @@
 
 .sectionTitle i {
   flex-shrink: 0;
+
   font-size: 14px;
 }
 
@@ -224,6 +240,7 @@
   white-space: pre-line;
 
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* =========================================================
@@ -233,7 +250,11 @@
 .reqGrid {
   display: grid;
 
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  min-width: 0;
+
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
 
   gap: 14px;
 }
@@ -272,6 +293,8 @@
 
   letter-spacing: 0.06em;
   text-transform: uppercase;
+
+  overflow-wrap: anywhere;
 }
 
 .reqList {
@@ -289,6 +312,8 @@
 .reqList li {
   position: relative;
 
+  min-width: 0;
+
   padding-left: 16px;
 
   color: var(--text-muted);
@@ -297,12 +322,14 @@
   line-height: 1.55;
 
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .reqList li::before {
   content: "—";
 
   position: absolute;
+
   left: 0;
   top: 0;
 
@@ -316,10 +343,13 @@
 .servicesGrid {
   display: grid;
 
-  grid-template-columns:
-    repeat(auto-fill, minmax(min(200px, 100%), 1fr));
+  width: 100%;
+  min-width: 0;
 
-  gap: 10px;
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 12px;
 }
 
 .servicesGrid > * {
@@ -348,6 +378,7 @@
   line-height: 1.75;
 
   overflow-wrap: anywhere;
+  word-break: break-word;
 
   transition:
     border-color 0.15s ease,
@@ -356,6 +387,7 @@
 
 .infraBlock:hover {
   background: var(--bg-elevated);
+
   border-color: var(--border-mid);
   border-left-color: var(--accent-2);
 }
@@ -380,6 +412,7 @@
   text-align: center;
 
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* =========================================================
@@ -401,6 +434,13 @@
 
   .reqGrid {
     gap: 12px;
+  }
+
+  .servicesGrid {
+    grid-template-columns:
+      repeat(3, minmax(0, 1fr));
+
+    gap: 10px;
   }
 }
 
@@ -436,14 +476,33 @@
     width: 100%;
 
     justify-content: flex-start;
+
+    flex-wrap: wrap;
   }
 
   .reqGrid {
     grid-template-columns: 1fr;
   }
 
+  .servicesGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 10px;
+  }
+
   .section {
     margin-bottom: 28px;
+  }
+
+  .overviewText {
+    max-width: 100%;
+  }
+
+  .infraBlock {
+    padding: 16px 18px;
+
+    font-size: 13px;
   }
 }
 
@@ -451,7 +510,7 @@
    MOBILE
    ========================================================= */
 
-@media (max-width: 560px) {
+@media (max-width: 600px) {
   .wrap {
     padding: 20px 16px 28px;
   }
@@ -465,6 +524,7 @@
 
   .product {
     font-size: 21px;
+
     letter-spacing: -0.025em;
   }
 
@@ -476,18 +536,21 @@
   }
 
   .actions {
-    display: grid;
+    display: flex;
 
-    grid-template-columns: 1fr auto;
+    align-items: stretch;
+    justify-content: flex-start;
 
     width: 100%;
+
+    flex-wrap: wrap;
+
+    gap: 8px;
   }
 
   .badge {
     min-width: 0;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: calc(100% - 44px);
   }
 
   .copyBtn {
@@ -506,9 +569,19 @@
     font-size: 10px;
   }
 
+  .sectionTitle::after {
+    min-width: 12px;
+  }
+
   .overviewText {
     font-size: 13px;
     line-height: 1.75;
+  }
+
+  .reqGrid {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
   }
 
   .reqCard {
@@ -525,6 +598,13 @@
 
   .reqList li {
     font-size: 12.5px;
+    line-height: 1.6;
+  }
+
+  .servicesGrid {
+    grid-template-columns: 1fr;
+
+    gap: 10px;
   }
 
   .infraBlock {
@@ -556,12 +636,16 @@
   }
 
   .actions {
-    grid-template-columns: 1fr;
+    width: 100%;
+
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .badge,
   .copyBtn {
     width: 100%;
+    max-width: 100%;
   }
 
   .copyBtn {
@@ -575,6 +659,16 @@
   .reqCard {
     padding: 14px;
   }
+
+  .overviewText {
+    font-size: 12.5px;
+  }
+
+  .infraBlock {
+    padding: 14px;
+
+    font-size: 12.5px;
+  }
 }
 
 /* =========================================================
@@ -586,5 +680,9 @@
   .infraBlock,
   .copyBtn {
     transition: none;
+  }
+
+  .reqCard:hover {
+    transform: none;
   }
 }
