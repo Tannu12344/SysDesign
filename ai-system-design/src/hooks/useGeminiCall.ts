@@ -16,7 +16,7 @@ export function useGeminiCall() {
         'Authorization': `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'openai/gpt-oss-120b',
         messages: [
           { role: 'system', content: 'Return only valid JSON. No markdown, no backticks, no preamble.' },
           { role: 'user', content: prompt },

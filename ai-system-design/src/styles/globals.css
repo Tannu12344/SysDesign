@@ -1,97 +1,335 @@
-*, *::before, *::after {
+/* =========================================================
+   GLOBAL DESIGN SYSTEM
+   Dark / Grainy / Editorial / Developer-focused
+   ========================================================= */
+
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+
 :root {
-  --bg-base:       #0d0d0f;
-  --bg-surface:    #111114;
-  --bg-elevated:   #16161c;
-  --bg-hover:      #1a1a22;
+  /* ---------- Background ---------- */
 
-  --border-subtle: #1f1f26;
-  --border-mid:    #2a2a35;
-  --border-strong: #3a3a4a;
+  --bg-base: #0f0f0d;
+  --bg-surface: #151513;
+  --bg-elevated: #1b1a17;
+  --bg-hover: #22211d;
 
-  --text-primary:  #e8e6f4;
-  --text-secondary:#8a8aaa;
-  --text-muted:    #5a5a70;
-  --text-faint:    #3a3a4a;
+  /* ---------- Borders ---------- */
 
-  --accent-1:      #7c3aed;
-  --accent-2:      #5b3fad;
-  --accent-3:      #c4b5fd;
-  --accent-bg:     #1a1628;
-  --accent-border: #3a2a5a;
+  --border-subtle: #272621;
+  --border-mid: #34332d;
+  --border-strong: #48463d;
 
-  --font-sans: 'Syne', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
+  /* ---------- Typography ---------- */
+
+  --text-primary: #ebe7dc;
+  --text-secondary: #aaa69b;
+  --text-muted: #77746b;
+  --text-faint: #514f48;
+
+  /* ---------- Accent ---------- */
+
+  --accent-1: #d97745;
+  --accent-2: #b85d32;
+  --accent-3: #e7a078;
+
+  --accent-bg: #241914;
+  --accent-border: #523125;
+
+  /* ---------- Semantic ---------- */
+
+  --success: #6f9b76;
+  --warning: #c08a4c;
+  --danger: #bd665b;
+
+  /* ---------- Typography ---------- */
+
+  --font-sans:
+    Inter,
+    "Helvetica Neue",
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  --font-mono:
+    "IBM Plex Mono",
+    "SFMono-Regular",
+    Consolas,
+    monospace;
+
+  /* ---------- Radius ---------- */
 
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+
+  /* ---------- Shadows ---------- */
+
+  --shadow-sm:
+    0 1px 2px rgba(0, 0, 0, 0.18),
+    0 3px 10px rgba(0, 0, 0, 0.12);
+
+  --shadow-md:
+    0 8px 28px rgba(0, 0, 0, 0.22);
+
+  /* ---------- Motion ---------- */
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html, body, #root {
-  height: 100%;
+/* =========================================================
+   DOCUMENT
+   ========================================================= */
+
+html,
+body,
+#root {
   width: 100%;
+  height: 100%;
+}
+
+html {
+  background: var(--bg-base);
 }
 
 body {
+  position: relative;
+
   font-family: var(--font-sans);
+
   background: var(--bg-base);
   color: var(--text-primary);
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
   overflow: hidden;
 }
 
-button {
-  font-family: var(--font-sans);
-  cursor: pointer;
-  border: none;
-  outline: none;
+/* =========================================================
+   SUBTLE GRAIN
+   ========================================================= */
+
+body::before {
+  content: "";
+
+  position: fixed;
+  inset: 0;
+
+  z-index: 9999;
+
+  pointer-events: none;
+
+  opacity: 0.035;
+
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.5'/%3E%3C/svg%3E");
+
+  mix-blend-mode: screen;
 }
 
-input, textarea {
+/* =========================================================
+   TYPOGRAPHY
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text-primary);
+
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+p {
+  color: var(--text-secondary);
+}
+
+strong {
+  color: var(--text-primary);
+  font-weight: 650;
+}
+
+small {
+  color: var(--text-muted);
+}
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+button,
+input,
+textarea,
+select {
   font-family: var(--font-sans);
+}
+
+button {
+  cursor: pointer;
+
+  border: none;
+  outline: none;
+
+  color: inherit;
+}
+
+input,
+textarea,
+select {
   outline: none;
   border: none;
-  background: none;
+
+  background: transparent;
+  color: inherit;
 }
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-faint);
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
 
 a {
   color: inherit;
   text-decoration: none;
 }
 
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+a:hover {
+  color: var(--accent-3);
 }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: var(--border-mid);
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover { background: var(--border-strong); }
 
-/* Animations */
+/* =========================================================
+   CODE
+   ========================================================= */
+
+code,
+pre,
+kbd {
+  font-family: var(--font-mono);
+}
+
+code {
+  color: var(--accent-3);
+}
+
+/* =========================================================
+   SELECTION
+   ========================================================= */
+
+::selection {
+  background: var(--accent-bg);
+  color: var(--accent-3);
+}
+
+/* =========================================================
+   SCROLLBARS
+   ========================================================= */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-mid) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border-mid);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 2px;
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0.4; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.45;
+  }
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease forwards;
+  animation: fadeIn 0.28s var(--ease-out) forwards;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  body {
+    overflow: auto;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

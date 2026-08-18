@@ -48,7 +48,7 @@ export function useClaudeAPI<T>({
               Authorization: `Bearer ${apiKey}`,
             },
             body: JSON.stringify({
-              model: "llama-3.3-70b-versatile",
+              model: 'openai/gpt-oss-120b',
               messages: [
                 {
                   role: "system",
@@ -85,7 +85,7 @@ export function useClaudeAPI<T>({
         if (!raw) {
           throw new Error("Empty response from Groq");
         }
-
+        console.log('RAW GROQ RESPONSE:', raw)
         const clean = raw
           .replace(/```json\s*/g, "")
           .replace(/```\s*/g, "")
