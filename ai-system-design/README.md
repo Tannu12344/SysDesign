@@ -10,10 +10,20 @@ npm install
 
 # 2. Set up your API key
 cp .env.example .env.local
-# Edit .env.local and add your Groq API key
+# Edit .env.local and add your Anthropic API key
 
 # 3. Run the dev server
 npm run dev
+```
+
+Open http://localhost:5173
+
+## Getting an API Key
+
+1. Go to https://console.anthropic.com/
+2. Create an account (free tier available)
+3. Generate an API key
+4. Add it to `.env.local` as `VITE_ANTHROPIC_API_KEY`
 
 ## Project Structure
 
@@ -21,43 +31,26 @@ npm run dev
 src/
 ├── components/
 │   ├── layout/
-│   │   ├── Sidebar.tsx         — Left navigation + history panel
+│   │   ├── Sidebar.tsx         — Left nav + history panel
 │   │   └── TopBar.tsx          — Search bar + quick chips
 │   ├── explorer/
-│   │   ├── ArchitectureReport.tsx  — Architecture report renderer
+│   │   ├── ArchitectureReport.tsx  — Full report renderer
 │   │   ├── ServiceCard.tsx         — Individual service card
 │   │   ├── EmptyState.tsx          — Initial empty screen
 │   │   └── LoadingState.tsx        — Loading animation
-│   ├── tabs/
-│   │   ├── DeepExplorer.tsx    — Deep system design exploration
-│   │   ├── TabBar.tsx          — Deep-dive navigation
-│   │   └── ...                 — Database, caching, API, scaling, etc.
-│   ├── interview/              — Interview Mode
-│   ├── revision/               — Revision Mode
-│   ├── compare/                — Compare Mode
-│   ├── custom/                 — Custom Design Mode
-│   ├── history/                — History dashboard
-│   ├── saved/                  — Saved reports
-│   ├── settings/               — Application settings
-│   └── ui/                     — Shared UI components
+│   └── ui/
+│       ├── ErrorBanner.tsx     — Error display with retry
+│       └── PlaceholderPage.tsx — Coming-soon pages
 ├── hooks/
-│   ├── useClaudeAPI.ts         — AI API call wrapper
-│   ├── useGeminiCall.ts        — Deep exploration API calls
-│   ├── useHistory.ts           — localStorage history manager
-│   ├── useSavedReports.ts      — Saved reports manager
-│   ├── useSettings.ts          — Settings manager
-│   └── useTabCache.ts          — Deep Explorer tab cache
+│   ├── useClaudeAPI.ts         — Claude API call wrapper
+│   └── useHistory.ts           — localStorage history manager
 ├── prompts/
-│   ├── architecturePrompt.ts   — Architecture system prompt
-│   └── tabPrompts.ts           — Deep-dive tab prompts
+│   └── architecturePrompt.ts   — System prompt + product list
 ├── types/
-│   ├── report.ts               — Architecture and tab interfaces
-│   └── phase4.ts               — Compare and Custom mode types
-├── utils/
-│   └── exportUtils.ts          — Markdown export utilities
+│   └── report.ts               — TypeScript interfaces
 ├── styles/
 │   └── globals.css             — Design system + CSS variables
-└── App.tsx                     — Root component + navigation
+└── App.tsx                     — Root component + routing
 ```
 
 ## Phases
@@ -73,6 +66,5 @@ src/
 - React 18 + TypeScript
 - Vite 5
 - CSS Modules (zero runtime CSS-in-JS)
-- Groq API
-- localStorage for history and saved reports
-- Tabler Icons
+- Claude claude-sonnet-4-20250514 via Anthropic API
+- localStorage for history persistence
