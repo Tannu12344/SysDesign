@@ -335,6 +335,7 @@ export default function App() {
 
       <div className={styles.main}>
 
+        {/* Architecture page keeps the existing TopBar */}
         {activePage === 'architecture' && (
           <TopBar
             query={query}
@@ -343,6 +344,27 @@ export default function App() {
             onGenerate={handleGenerate}
             onOpenSidebar={handleOpenMobileSidebar}
           />
+        )}
+
+        {/* Mobile header for all other pages */}
+        {activePage !== 'architecture' && (
+          <div className={styles.mobileHeader}>
+            <button
+              className={styles.mobileMenuBtn}
+              onClick={handleOpenMobileSidebar}
+              aria-label="Open navigation"
+            >
+              <i
+                className="ti ti-menu-2"
+                aria-hidden="true"
+              />
+            </button>
+
+            <span className={styles.mobilePageTitle}>
+              {activePage.charAt(0).toUpperCase() +
+                activePage.slice(1)}
+            </span>
+          </div>
         )}
 
         {/* ─────────────────────────────────────────────────

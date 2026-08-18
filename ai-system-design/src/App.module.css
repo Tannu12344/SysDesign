@@ -108,7 +108,6 @@ svg {
 
 .app {
   display: flex;
-
   width: 100vw;
   height: 100vh;
 
@@ -157,6 +156,63 @@ svg {
 }
 
 /* =========================================================
+   MOBILE HEADER
+   Used on every page except Architecture, where TopBar
+   already provides the header and hamburger.
+   ========================================================= */
+
+.mobileHeader {
+  display: none;
+}
+
+.mobileMenuBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 36px;
+  height: 36px;
+
+  flex-shrink: 0;
+
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border-mid);
+  border-radius: var(--radius-md);
+
+  color: var(--text-secondary);
+
+  cursor: pointer;
+
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.mobileMenuBtn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+
+.mobileMenuBtn i {
+  font-size: 19px;
+}
+
+.mobilePageTitle {
+  min-width: 0;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  color: var(--text-primary);
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
    SCROLLBAR
    ========================================================= */
 
@@ -190,7 +246,7 @@ svg {
    GLOBAL FOCUS
    ========================================================= */
 
-:focus-visible {
+*:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
 }
@@ -206,12 +262,42 @@ svg {
 }
 
 @media (max-width: 768px) {
+  .mobileHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    min-height: 60px;
+    width: 100%;
+
+    padding: 10px 16px;
+
+    background: var(--bg-base);
+    border-bottom: 0.5px solid var(--border-light);
+
+    flex-shrink: 0;
+  }
+
   .content {
     padding: 24px 20px 36px;
   }
 }
 
 @media (max-width: 480px) {
+  .mobileHeader {
+    min-height: 56px;
+    padding: 8px 12px;
+  }
+
+  .mobileMenuBtn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .mobilePageTitle {
+    font-size: 14px;
+  }
+
   .content {
     padding: 20px 16px 32px;
   }
