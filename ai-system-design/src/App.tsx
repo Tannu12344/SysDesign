@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react'
 
 // ─── Layout ──────────────────────────────────────────────────────────────────
 import Sidebar from './components/layout/Sidebar'
+import MobileHeader from './components/layout/MobileHeader'
 import TopBar from './components/layout/TopBar'
 
 // ─── Pages ───────────────────────────────────────────────────────────────────
@@ -35,11 +36,13 @@ import type {
   HistoryEntry,
 } from './types/report'
 
+// ─── Utilities ──────────────────────────────────────────────────────────────
 import {
   architectureToMarkdown,
   copyToClipboard,
 } from './utils/exportUtils'
 
+// ─── Styles ─────────────────────────────────────────────────────────────────
 import styles from './App.module.css'
 
 type AppState = 'idle' | 'loading' | 'success' | 'error'
@@ -50,7 +53,8 @@ export default function App() {
   const [activePage, setActivePage] =
     useState<NavPage>('architecture')
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] =
+    useState('')
 
   const [appState, setAppState] =
     useState<AppState>('idle')
@@ -61,21 +65,21 @@ export default function App() {
   const [lastQuery, setLastQuery] =
     useState('')
 
-  // ─── Sidebar State ─────────────────────────────────────────────────────────
+  // ─── Sidebar State ────────────────────────────────────────────────────────
 
-  // Desktop sidebar:
+  // Desktop:
   // false = expanded
   // true  = collapsed
   const [sidebarCollapsed, setSidebarCollapsed] =
     useState(false)
 
-  // Mobile sidebar:
+  // Mobile:
   // false = closed
   // true  = open
   const [mobileSidebarOpen, setMobileSidebarOpen] =
     useState(false)
 
-  // ─── Hooks ─────────────────────────────────────────────────────────────────
+  // ─── Hooks ────────────────────────────────────────────────────────────────
 
   const {
     history,
@@ -107,7 +111,7 @@ export default function App() {
     loadingMessages: LOADING_MESSAGES,
   })
 
-  // ─── Sidebar Handlers ──────────────────────────────────────────────────────
+  // ─── Sidebar Handlers ─────────────────────────────────────────────────────
 
   const handleToggleSidebar = useCallback(() => {
     setSidebarCollapsed(prev => !prev)
@@ -121,16 +125,16 @@ export default function App() {
     setMobileSidebarOpen(false)
   }, [])
 
-  // Navigation handler
-  //
-  // We keep your existing navigation behavior,
-  // but additionally close the mobile drawer.
+  // ─── Navigation ──────────────────────────────────────────────────────────
+
   const handleNavigate = useCallback((page: NavPage) => {
     setActivePage(page)
+
+    // Always close mobile drawer after navigation.
     setMobileSidebarOpen(false)
   }, [])
 
-  // ─── Generate ──────────────────────────────────────────────────────────────
+  // ─── Generate Architecture ───────────────────────────────────────────────
 
   const handleGenerate = useCallback(async () => {
     const q = query.trim()
@@ -156,9 +160,14 @@ export default function App() {
     } else {
       setAppState('error')
     }
-  }, [query, loading, generate, addEntry])
+  }, [
+    query,
+    loading,
+    generate,
+    addEntry,
+  ])
 
-  // ─── History ───────────────────────────────────────────────────────────────
+  // ─── History ──────────────────────────────────────────────────────────────
 
   const handleLoadHistory = useCallback(
     (entry: HistoryEntry) => {
@@ -167,13 +176,13 @@ export default function App() {
       setAppState('success')
       setActivePage('architecture')
 
-      // Close mobile sidebar if a history item is selected.
+      // Close mobile navigation.
       setMobileSidebarOpen(false)
     },
     []
   )
 
-  // ─── Copy ──────────────────────────────────────────────────────────────────
+  // ─── Copy ─────────────────────────────────────────────────────────────────
 
   const handleCopyOverview = useCallback(() => {
     if (!report) return
@@ -183,7 +192,7 @@ export default function App() {
     ).catch(() => {})
   }, [report])
 
-  // ─── Save ──────────────────────────────────────────────────────────────────
+  // ─── Save ─────────────────────────────────────────────────────────────────
 
   const handleSaveCurrentReport = useCallback(() => {
     if (!report) return
@@ -204,21 +213,41 @@ export default function App() {
     isSaved,
   ])
 
-  // ─── Render Content ────────────────────────────────────────────────────────
+  // ─── Render Content ──────────────────────────────────────────────────────
 
   const renderContent = () => {
     switch (activePage) {
+      // ─────────────────────────────────────────────────────────
+      // INTERVIEW
+      // ─────────────────────────────────────────────────────────
+
       case 'interview':
         return <InterviewMode />
+
+      // ─────────────────────────────────────────────────────────
+      // REVISION
+      // ─────────────────────────────────────────────────────────
 
       case 'revision':
         return <RevisionMode />
 
+      // ─────────────────────────────────────────────────────────
+      // COMPARE
+      // ─────────────────────────────────────────────────────────
+
       case 'compare':
         return <CompareMode />
 
+      // ─────────────────────────────────────────────────────────
+      // CUSTOM
+      // ─────────────────────────────────────────────────────────
+
       case 'custom':
         return <CustomMode />
+
+      // ─────────────────────────────────────────────────────────
+      // HISTORY
+      // ─────────────────────────────────────────────────────────
 
       case 'history':
         return (
@@ -229,6 +258,10 @@ export default function App() {
           />
         )
 
+      // ─────────────────────────────────────────────────────────
+      // SAVED
+      // ─────────────────────────────────────────────────────────
+
       case 'saved':
         return (
           <SavedPage
@@ -237,6 +270,10 @@ export default function App() {
             onClearAll={clearSaved}
           />
         )
+
+      // ─────────────────────────────────────────────────────────
+      // SETTINGS
+      // ─────────────────────────────────────────────────────────
 
       case 'settings':
         return (
@@ -248,6 +285,10 @@ export default function App() {
             onClearSaved={clearSaved}
           />
         )
+
+      // ─────────────────────────────────────────────────────────
+      // ARCHITECTURE
+      // ─────────────────────────────────────────────────────────
 
       case 'architecture':
       default:
@@ -291,14 +332,14 @@ export default function App() {
     }
   }
 
-  // ─── App ───────────────────────────────────────────────────────────────────
+  // ─── Application Shell ───────────────────────────────────────────────────
 
   return (
     <div className={styles.app}>
 
-      {/* ─────────────────────────────────────────────────────
-          SIDEBAR
-          ───────────────────────────────────────────────────── */}
+      {/* =====================================================
+          GLOBAL SIDEBAR
+          ===================================================== */}
 
       <Sidebar
         activePage={activePage}
@@ -311,26 +352,42 @@ export default function App() {
         onCloseMobile={handleCloseMobileSidebar}
       />
 
-      {/* ─────────────────────────────────────────────────────
+      {/* =====================================================
           MAIN
-          ───────────────────────────────────────────────────── */}
+          ===================================================== */}
 
       <div className={styles.main}>
 
-        {/* TopBar only appears on Architecture page */}
+        {/* ===================================================
+            MOBILE HEADER
+
+            Visible on every page.
+            Provides navigation access on small screens.
+            =================================================== */}
+
+        <MobileHeader
+          activePage={activePage}
+          onOpenSidebar={handleOpenMobileSidebar}
+        />
+
+        {/* ===================================================
+            ARCHITECTURE TOP BAR
+
+            Only Architecture needs search + Generate.
+            =================================================== */}
+
         {activePage === 'architecture' && (
           <TopBar
             query={query}
             loading={loading}
             onQueryChange={setQuery}
             onGenerate={handleGenerate}
-            onOpenSidebar={handleOpenMobileSidebar}
           />
         )}
 
-        {/* ─────────────────────────────────────────────────
-            CONTENT
-            ───────────────────────────────────────────────── */}
+        {/* ===================================================
+            PAGE CONTENT
+            =================================================== */}
 
         <div className={styles.content}>
           {renderContent()}
