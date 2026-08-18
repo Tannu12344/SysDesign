@@ -11,9 +11,7 @@ export function useHistory() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
       if (raw) setHistory(JSON.parse(raw))
-    } catch {
-      setHistory([])
-    }
+    } catch { setHistory([]) }
   }, [])
 
   const addEntry = (entry: HistoryEntry) => {

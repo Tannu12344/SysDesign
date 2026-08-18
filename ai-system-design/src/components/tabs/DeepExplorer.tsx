@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
+import { useGeminiCall } from '../../hooks/useGeminiCall'
 import TabBar from './TabBar'
 import DatabaseTab from './DatabaseTab'
 import CachingTab from './CachingTab'
@@ -9,6 +10,7 @@ import ScalingTab from './ScalingTab'
 import SecurityTab from './SecurityTab'
 import FailuresTab from './FailuresTab'
 import DecisionsTab from './DecisionsTab'
+import OverviewTab from './OverviewTab'
 import { useTabCache } from '../../hooks/useTabCache'
 import { getTabPrompt, TAB_LOADING_MESSAGES } from '../../prompts/tabPrompts'
 import type {
@@ -21,90 +23,33 @@ import s from './DeepExplorer.module.css'
 interface Props {
   report: ArchitectureReport
   onCopy: () => void
+  onSave?: () => void
+  isSaved?: boolean
 }
 
-export default function DeepExplorer({ report, onCopy }: Props) {
+export default function DeepExplorer({ report, onCopy, onSave, isSaved }: Props) {
   const [activeTab, setActiveTab] = useState<TabId>('overview')
   const [loadingTab, setLoadingTab] = useState<TabId | null>(null)
   const [tabError, setTabError] = useState<string | null>(null)
   const [loadingMsg, setLoadingMsg] = useState('')
+  const [saveFeedback, setSaveFeedback] = useState(false)
 
   const { getTab, setTab, hasTab } = useTabCache(report.product)
   const [cachedSet, setCachedSet] = useState<Set<TabId>>(new Set())
+  const { callGemini } = useGeminiCall()
 
   useEffect(() => {
-    // Re-build cached set when product changes
     const tabs: TabId[] = ['database','caching','messaging','api','realtime','scaling','security','failures','decisions']
     const cached = new Set<TabId>(tabs.filter(t => hasTab(t as TabId)) as TabId[])
     setCachedSet(cached)
   }, [report.product, hasTab])
 
-  const callModel = useCallback(async (prompt: string): Promise<string> => {
-    const groqKey = (import.meta as { env: { VITE_GROQ_API_KEY?: string } }).env.VITE_GROQ_API_KEY
-    const geminiKey = (import.meta as { env: { VITE_GEMINI_API_KEY?: string } }).env.VITE_GEMINI_API_KEY
-
-    const systemInstruction = 'Return only valid JSON. No markdown, no backticks, no preamble.'
-
-    if (groqKey) {
-      const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${groqKey}`,
-        },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          messages: [
-            { role: 'system', content: systemInstruction },
-            { role: 'user', content: prompt },
-          ],
-          temperature: 0.7,
-          response_format: { type: 'json_object' },
-        }),
-      })
-
-      if (!resp.ok) {
-        const e = await resp.json().catch(() => ({}))
-        throw new Error((e as { error?: { message?: string } })?.error?.message || `Groq API error ${resp.status}`)
-      }
-
-      const data = await resp.json()
-      const raw: string = data?.choices?.[0]?.message?.content ?? ''
-      return raw.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim()
-    }
-
-    if (geminiKey) {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`
-      const resp = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          system_instruction: { parts: [{ text: systemInstruction }] },
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: { temperature: 0.7, maxOutputTokens: 3000 },
-        }),
-      })
-      if (!resp.ok) {
-        const e = await resp.json().catch(() => ({}))
-        throw new Error((e as { error?: { message?: string } })?.error?.message || `Gemini API error ${resp.status}`)
-      }
-      const data = await resp.json()
-      const raw: string = (data as { candidates: { content: { parts: { text: string }[] } }[] })
-        .candidates?.[0]?.content?.parts?.[0]?.text ?? ''
-      return raw.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim()
-    }
-
-    throw new Error('No API key found. Set VITE_GROQ_API_KEY or VITE_GEMINI_API_KEY')
-  }, [])
-
   const loadTab = useCallback(async (tab: TabId) => {
     if (tab === 'overview') { setActiveTab('overview'); return }
     if (hasTab(tab)) { setActiveTab(tab); return }
-
     setActiveTab(tab)
     setLoadingTab(tab)
     setTabError(null)
-
     const msgs = TAB_LOADING_MESSAGES[tab]
     let idx = 0
     setLoadingMsg(msgs[0] || 'Loading...')
@@ -112,10 +57,9 @@ export default function DeepExplorer({ report, onCopy }: Props) {
       idx = (idx + 1) % msgs.length
       setLoadingMsg(msgs[idx])
     }, 2000)
-
     try {
       const prompt = getTabPrompt(tab, report.product)
-      const raw = await callModel(prompt)
+      const raw = await callGemini(prompt)
       const parsed = JSON.parse(raw) as TabData
       setTab(tab, parsed)
       setCachedSet(prev => new Set([...prev, tab]))
@@ -125,13 +69,18 @@ export default function DeepExplorer({ report, onCopy }: Props) {
       clearInterval(interval)
       setLoadingTab(null)
     }
-  }, [hasTab, callModel, report.product, setTab])
+  }, [hasTab, callGemini, report.product, setTab])
+
+  const handleSave = () => {
+    if (onSave && !isSaved) {
+      onSave()
+      setSaveFeedback(true)
+      setTimeout(() => setSaveFeedback(false), 2000)
+    }
+  }
 
   const renderTabContent = () => {
-    if (activeTab === 'overview') {
-      return <OverviewTab report={report} onCopy={onCopy} />
-    }
-
+    if (activeTab === 'overview') return <OverviewTab report={report} onCopy={onCopy} />
     if (loadingTab === activeTab) {
       return (
         <div className={s.tabLoading}>
@@ -141,7 +90,6 @@ export default function DeepExplorer({ report, onCopy }: Props) {
         </div>
       )
     }
-
     if (tabError && !hasTab(activeTab)) {
       return (
         <div className={s.tabError}>
@@ -153,10 +101,8 @@ export default function DeepExplorer({ report, onCopy }: Props) {
         </div>
       )
     }
-
     const data = getTab(activeTab)
     if (!data) return null
-
     switch (activeTab) {
       case 'database':  return <DatabaseTab  data={data as DatabaseReport} />
       case 'caching':   return <CachingTab   data={data as CachingReport} />
@@ -181,25 +127,24 @@ export default function DeepExplorer({ report, onCopy }: Props) {
         <div className={s.headerActions}>
           <span className={s.badge}>Deep Explorer</span>
           <button className={s.copyBtn} onClick={onCopy}>
-            <i className="ti ti-copy" /> Copy Overview
+            <i className="ti ti-copy" /> Copy MD
           </button>
+          {onSave && (
+            <button
+              className={s.copyBtn}
+              onClick={handleSave}
+              disabled={isSaved}
+              title={isSaved ? 'Already saved' : 'Save report'}
+              style={isSaved ? { color: 'var(--accent-3)', borderColor: 'var(--accent-border)' } : {}}
+            >
+              <i className={`ti ${saveFeedback || isSaved ? 'ti-bookmark-filled' : 'ti-bookmark'}`} />
+              {saveFeedback ? 'Saved!' : isSaved ? 'Saved' : 'Save'}
+            </button>
+          )}
         </div>
       </div>
-
-      <TabBar
-        activeTab={activeTab}
-        cachedTabs={cachedSet}
-        loadingTab={loadingTab}
-        onSelectTab={loadTab}
-      />
-
-      <div className={s.tabContent}>
-        {renderTabContent()}
-      </div>
+      <TabBar activeTab={activeTab} cachedTabs={cachedSet} loadingTab={loadingTab} onSelectTab={loadTab} />
+      <div className={s.tabContent}>{renderTabContent()}</div>
     </div>
   )
 }
-
-// ─── Overview tab (Phase 1 content, no API call needed) ──────────────────────
-import OverviewTabComp from './OverviewTab'
-const OverviewTab = OverviewTabComp
