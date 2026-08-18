@@ -12,6 +12,7 @@ interface Props {
   saved: SavedReport[]
   onRemove: (id: string) => void
   onClearAll: () => void
+  onLoad: (report: SavedReport) => void
 }
 
 const MODE_LABELS: Record<ReportMode, string> = {
@@ -54,7 +55,12 @@ const FILTERS: { label: string; value: ReportMode | 'all' }[] = [
   { label: 'Custom', value: 'custom' },
 ]
 
-export default function SavedPage({ saved, onRemove, onClearAll }: Props) {
+export default function SavedPage({
+  saved,
+  onRemove,
+  onClearAll,
+  onLoad,
+}: Props) {
   const [filter, setFilter] = useState<ReportMode | 'all'>('all')
   const [copied, setCopied] = useState<string | null>(null)
   const [confirmClear, setConfirmClear] = useState(false)
@@ -100,34 +106,36 @@ export default function SavedPage({ saved, onRemove, onClearAll }: Props) {
       <div className={s.topbar}>
         <h2 className={s.title}>Saved Reports</h2>
         <span className={s.count}>{saved.length} saved</span>
+
         <button
-          style={{ display: 'flex', alignItems: 'center', gap: 5, background: 'var(--bg-surface)', border: '0.5px solid var(--border-mid)', borderRadius: 'var(--radius-md)', padding: '6px 12px', fontSize: 12, color: 'var(--text-muted)', cursor: 'pointer', transition: 'all 0.15s' }}
+          className={s.exportBtn}
           onClick={handleExportAll}
           title="Export all as Markdown"
         >
           <i className="ti ti-download" aria-hidden="true" /> Export All
         </button>
-        <button className={s.clearBtn} onClick={() => { if (!confirmClear) { setConfirmClear(true); return } onClearAll(); setConfirmClear(false) }}>
+
+        <button
+          className={s.clearBtn}
+          onClick={() => {
+            if (!confirmClear) {
+              setConfirmClear(true)
+              return
+            }
+            onClearAll()
+            setConfirmClear(false)
+          }}
+        >
           <i className="ti ti-trash" aria-hidden="true" />
           {confirmClear ? 'Confirm?' : 'Clear All'}
         </button>
       </div>
 
-      <div style={{ display: 'flex', gap: 6, padding: '10px 24px', borderBottom: '0.5px solid var(--border-subtle)', overflowX: 'auto', scrollbarWidth: 'none' }}>
+      <div className={s.filters}>
         {FILTERS.map(f => (
           <button
             key={f.value}
-            style={{
-              background: filter === f.value ? 'var(--accent-bg)' : 'var(--bg-elevated)',
-              border: `0.5px solid ${filter === f.value ? 'var(--accent-1)' : 'var(--border-mid)'}`,
-              borderRadius: 20,
-              padding: '4px 13px',
-              fontSize: 12,
-              color: filter === f.value ? 'var(--accent-3)' : 'var(--text-muted)',
-              whiteSpace: 'nowrap',
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}
+            className={`${s.filterBtn} ${filter === f.value ? s.active : ''}`}
             onClick={() => setFilter(f.value)}
           >
             {f.label}
@@ -138,22 +146,58 @@ export default function SavedPage({ saved, onRemove, onClearAll }: Props) {
       <div className={s.content}>
         <div className={s.grid}>
           {filtered.map(report => (
-            <div key={report.id} className={s.card}>
+            <div
+              key={report.id}
+              className={s.card}
+              onClick={() => onLoad(report)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={e => {
+                if (e.key === 'Enter') onLoad(report)
+              }}
+            >
               <div className={s.cardHeader}>
                 <span className={s.cardTitle}>{report.title}</span>
-                <span className={`${s.modeBadge} ${s[report.mode]}`}>{MODE_LABELS[report.mode]}</span>
+                <span className={`${s.modeBadge} ${s[report.mode]}`}>
+                  {MODE_LABELS[report.mode]}
+                </span>
               </div>
+
               <p className={s.cardSubtitle}>{report.subtitle}</p>
+
               <div className={s.cardFooter}>
-                <span className={s.timestamp}>{timeAgo(report.savedAt)}</span>
+                <span className={s.timestamp}>
+                  {timeAgo(report.savedAt)}
+                </span>
+
                 <div className={s.cardActions}>
-                  <button className={s.iconBtn} title="Copy Markdown" onClick={e => handleCopy(report, e)}>
-                    <i className={`ti ${copied === report.id ? 'ti-check' : 'ti-copy'}`} aria-hidden="true" />
+                  <button
+                    className={s.iconBtn}
+                    title="Copy Markdown"
+                    onClick={e => handleCopy(report, e)}
+                  >
+                    <i
+                      className={`ti ${copied === report.id ? 'ti-check' : 'ti-copy'}`}
+                      aria-hidden="true"
+                    />
                   </button>
-                  <button className={s.iconBtn} title="Download Markdown" onClick={e => handleDownload(report, e)}>
+
+                  <button
+                    className={s.iconBtn}
+                    title="Download Markdown"
+                    onClick={e => handleDownload(report, e)}
+                  >
                     <i className="ti ti-download" aria-hidden="true" />
                   </button>
-                  <button className={`${s.iconBtn} ${s.danger}`} title="Remove" onClick={e => { e.stopPropagation(); onRemove(report.id) }}>
+
+                  <button
+                    className={`${s.iconBtn} ${s.danger}`}
+                    title="Remove"
+                    onClick={e => {
+                      e.stopPropagation()
+                      onRemove(report.id)
+                    }}
+                  >
                     <i className="ti ti-trash" aria-hidden="true" />
                   </button>
                 </div>
