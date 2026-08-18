@@ -24,70 +24,201 @@ import { useSavedReports } from './hooks/useSavedReports'
 import { useSettings } from './hooks/useSettings'
 
 // ─── Prompts / Types ─────────────────────────────────────────────────────────
-import { ARCHITECTURE_SYSTEM_PROMPT, LOADING_MESSAGES } from './prompts/architecturePrompt'
-import type { ArchitectureReport as Report, NavPage, HistoryEntry } from './types/report'
-import { architectureToMarkdown, copyToClipboard } from './utils/exportUtils'
+import {
+  ARCHITECTURE_SYSTEM_PROMPT,
+  LOADING_MESSAGES,
+} from './prompts/architecturePrompt'
+
+import type {
+  ArchitectureReport as Report,
+  NavPage,
+  HistoryEntry,
+} from './types/report'
+
+import {
+  architectureToMarkdown,
+  copyToClipboard,
+} from './utils/exportUtils'
+
 import styles from './App.module.css'
 
 type AppState = 'idle' | 'loading' | 'success' | 'error'
 
 export default function App() {
-  const [activePage, setActivePage] = useState<NavPage>('architecture')
+  // ─── Application State ────────────────────────────────────────────────────
+
+  const [activePage, setActivePage] =
+    useState<NavPage>('architecture')
+
   const [query, setQuery] = useState('')
-  const [appState, setAppState] = useState<AppState>('idle')
-  const [report, setReport] = useState<Report | null>(null)
-  const [lastQuery, setLastQuery] = useState('')
+
+  const [appState, setAppState] =
+    useState<AppState>('idle')
+
+  const [report, setReport] =
+    useState<Report | null>(null)
+
+  const [lastQuery, setLastQuery] =
+    useState('')
+
+  // ─── Sidebar State ─────────────────────────────────────────────────────────
+
+  // Desktop sidebar:
+  // false = expanded
+  // true  = collapsed
+  const [sidebarCollapsed, setSidebarCollapsed] =
+    useState(false)
+
+  // Mobile sidebar:
+  // false = closed
+  // true  = open
+  const [mobileSidebarOpen, setMobileSidebarOpen] =
+    useState(false)
 
   // ─── Hooks ─────────────────────────────────────────────────────────────────
-  const { history, addEntry, clearAll: clearHistory } = useHistory()
-  const { saved, saveReport, removeReport, clearAll: clearSaved, isSaved } = useSavedReports()
-  const { settings, updateSettings, resetSettings } = useSettings()
-  const { generate, loading, error, loadingMsg } = useClaudeAPI<Report>({
+
+  const {
+    history,
+    addEntry,
+    clearAll: clearHistory,
+  } = useHistory()
+
+  const {
+    saved,
+    saveReport,
+    removeReport,
+    clearAll: clearSaved,
+    isSaved,
+  } = useSavedReports()
+
+  const {
+    settings,
+    updateSettings,
+    resetSettings,
+  } = useSettings()
+
+  const {
+    generate,
+    loading,
+    error,
+    loadingMsg,
+  } = useClaudeAPI<Report>({
     systemPrompt: ARCHITECTURE_SYSTEM_PROMPT,
     loadingMessages: LOADING_MESSAGES,
   })
 
-  // ─── Handlers ──────────────────────────────────────────────────────────────
+  // ─── Sidebar Handlers ──────────────────────────────────────────────────────
+
+  const handleToggleSidebar = useCallback(() => {
+    setSidebarCollapsed(prev => !prev)
+  }, [])
+
+  const handleOpenMobileSidebar = useCallback(() => {
+    setMobileSidebarOpen(true)
+  }, [])
+
+  const handleCloseMobileSidebar = useCallback(() => {
+    setMobileSidebarOpen(false)
+  }, [])
+
+  // Navigation handler
+  //
+  // We keep your existing navigation behavior,
+  // but additionally close the mobile drawer.
+  const handleNavigate = useCallback((page: NavPage) => {
+    setActivePage(page)
+    setMobileSidebarOpen(false)
+  }, [])
+
+  // ─── Generate ──────────────────────────────────────────────────────────────
+
   const handleGenerate = useCallback(async () => {
     const q = query.trim()
+
     if (!q || loading) return
+
     setLastQuery(q)
     setAppState('loading')
-    const result = await generate(`Generate system design report for: ${q}`)
+
+    const result = await generate(
+      `Generate system design report for: ${q}`
+    )
+
     if (result) {
       setReport(result)
       setAppState('success')
-      addEntry({ product: result.product, report: result, timestamp: Date.now() })
+
+      addEntry({
+        product: result.product,
+        report: result,
+        timestamp: Date.now(),
+      })
     } else {
       setAppState('error')
     }
   }, [query, loading, generate, addEntry])
 
-  const handleLoadHistory = useCallback((entry: HistoryEntry) => {
-    setQuery(entry.product)
-    setReport(entry.report)
-    setAppState('success')
-    setActivePage('architecture')
-  }, [])
+  // ─── History ───────────────────────────────────────────────────────────────
+
+  const handleLoadHistory = useCallback(
+    (entry: HistoryEntry) => {
+      setQuery(entry.product)
+      setReport(entry.report)
+      setAppState('success')
+      setActivePage('architecture')
+
+      // Close mobile sidebar if a history item is selected.
+      setMobileSidebarOpen(false)
+    },
+    []
+  )
+
+  // ─── Copy ──────────────────────────────────────────────────────────────────
 
   const handleCopyOverview = useCallback(() => {
     if (!report) return
-    copyToClipboard(architectureToMarkdown(report)).catch(() => {})
+
+    copyToClipboard(
+      architectureToMarkdown(report)
+    ).catch(() => {})
   }, [report])
+
+  // ─── Save ──────────────────────────────────────────────────────────────────
 
   const handleSaveCurrentReport = useCallback(() => {
     if (!report) return
-    if (isSaved(report.product, 'architecture')) return
-    saveReport(report.product, report.tagline, 'architecture', report)
-  }, [report, saveReport, isSaved])
 
-  // ─── Render ────────────────────────────────────────────────────────────────
+    if (isSaved(report.product, 'architecture')) {
+      return
+    }
+
+    saveReport(
+      report.product,
+      report.tagline,
+      'architecture',
+      report
+    )
+  }, [
+    report,
+    saveReport,
+    isSaved,
+  ])
+
+  // ─── Render Content ────────────────────────────────────────────────────────
+
   const renderContent = () => {
     switch (activePage) {
-      case 'interview': return <InterviewMode />
-      case 'revision':  return <RevisionMode />
-      case 'compare':   return <CompareMode />
-      case 'custom':    return <CustomMode />
+      case 'interview':
+        return <InterviewMode />
+
+      case 'revision':
+        return <RevisionMode />
+
+      case 'compare':
+        return <CompareMode />
+
+      case 'custom':
+        return <CustomMode />
 
       case 'history':
         return (
@@ -121,42 +252,90 @@ export default function App() {
       case 'architecture':
       default:
         switch (appState) {
-          case 'idle':    return <EmptyState />
-          case 'loading': return <LoadingState message={loadingMsg} product={lastQuery} />
-          case 'error':   return <ErrorBanner message={error || 'Unknown error'} onRetry={handleGenerate} />
+          case 'idle':
+            return <EmptyState />
+
+          case 'loading':
+            return (
+              <LoadingState
+                message={loadingMsg}
+                product={lastQuery}
+              />
+            )
+
+          case 'error':
+            return (
+              <ErrorBanner
+                message={
+                  error || 'Unknown error'
+                }
+                onRetry={handleGenerate}
+              />
+            )
+
           case 'success':
             return report ? (
               <DeepExplorer
                 report={report}
                 onCopy={handleCopyOverview}
                 onSave={handleSaveCurrentReport}
-                isSaved={isSaved(report.product, 'architecture')}
+                isSaved={isSaved(
+                  report.product,
+                  'architecture'
+                )}
               />
-            ) : <EmptyState />
+            ) : (
+              <EmptyState />
+            )
         }
     }
   }
 
+  // ─── App ───────────────────────────────────────────────────────────────────
+
   return (
     <div className={styles.app}>
+
+      {/* ─────────────────────────────────────────────────────
+          SIDEBAR
+          ───────────────────────────────────────────────────── */}
+
       <Sidebar
         activePage={activePage}
-        onNavigate={setActivePage}
+        onNavigate={handleNavigate}
         history={history}
         onLoadHistory={handleLoadHistory}
+        collapsed={sidebarCollapsed}
+        onToggle={handleToggleSidebar}
+        mobileOpen={mobileSidebarOpen}
+        onCloseMobile={handleCloseMobileSidebar}
       />
+
+      {/* ─────────────────────────────────────────────────────
+          MAIN
+          ───────────────────────────────────────────────────── */}
+
       <div className={styles.main}>
+
+        {/* TopBar only appears on Architecture page */}
         {activePage === 'architecture' && (
           <TopBar
             query={query}
             loading={loading}
             onQueryChange={setQuery}
             onGenerate={handleGenerate}
+            onOpenSidebar={handleOpenMobileSidebar}
           />
         )}
+
+        {/* ─────────────────────────────────────────────────
+            CONTENT
+            ───────────────────────────────────────────────── */}
+
         <div className={styles.content}>
           {renderContent()}
         </div>
+
       </div>
     </div>
   )

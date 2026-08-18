@@ -1,122 +1,433 @@
 .sidebar {
-  width: 220px;
-  min-width: 220px;
-  background: var(--bg-surface);
-  border-right: 0.5px solid var(--border-subtle);
+  position: relative;
+
   display: flex;
   flex-direction: column;
-  padding: 20px 0 16px;
-  overflow: hidden;
+
+  width: 250px;
+  min-width: 250px;
+  height: 100vh;
+
+  padding: 22px 12px;
+
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border-subtle);
+
+  transition:
+    width 220ms var(--ease-out),
+    min-width 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
+
+  z-index: 100;
 }
 
+.sidebar.collapsed {
+  width: 68px;
+  min-width: 68px;
+}
+
+/* =========================================================
+   LOGO
+   ========================================================= */
+
 .logo {
-  padding: 0 18px 18px;
-  border-bottom: 0.5px solid var(--border-subtle);
-  margin-bottom: 16px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-height: 48px;
+
+  padding: 4px 10px 20px;
+
+  border-bottom: 1px solid var(--border-subtle);
 }
 
 .logoMark {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: var(--accent-3);
-  text-transform: uppercase;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+
+  color: var(--text-primary);
+}
+
+.logoFull {
+  display: inline;
+}
+
+.logoShort {
+  display: none;
 }
 
 .logoSub {
-  font-size: 11px;
-  color: var(--text-faint);
-  margin-top: 2px;
+  margin-top: 4px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  line-height: 1.4;
+
+  white-space: nowrap;
 }
+
+.toggleBtn,
+.mobileClose {
+  position: absolute;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  background: transparent;
+
+  color: var(--text-muted);
+
+  border-radius: var(--radius-sm);
+
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast);
+}
+
+.toggleBtn {
+  top: 2px;
+  right: 0;
+}
+
+.toggleBtn:hover,
+.mobileClose:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.mobileClose {
+  display: none;
+
+  top: 2px;
+  right: 0;
+}
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
 
 .nav {
   display: flex;
   flex-direction: column;
-  padding: 0 8px;
-  flex: 1;
+
+  gap: 3px;
+
+  padding-top: 20px;
 }
 
 .navLabel {
-  font-size: 10px;
-  letter-spacing: 0.1em;
+  margin: 0 8px 8px;
+
   color: var(--text-faint);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 500;
+
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 0 10px;
-  margin-bottom: 4px;
+}
+
+.navLabel:not(:first-child) {
+  margin-top: 20px;
 }
 
 .navItem {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 9px 10px;
-  font-size: 13px;
-  font-weight: 400;
-  color: var(--text-muted);
-  background: none;
-  border-radius: var(--radius-md);
-  border-left: 2px solid transparent;
-  transition: all 0.15s ease;
-  text-align: left;
+
   width: 100%;
-}
+  min-height: 38px;
 
-.navItem:hover {
-  color: var(--text-secondary);
-  background: var(--bg-hover);
-}
+  gap: 11px;
 
-.navItem.active {
-  color: var(--accent-3);
-  background: var(--accent-bg);
-  border-left-color: var(--accent-1);
+  padding: 0 10px;
+
+  background: transparent;
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+
+  color: var(--text-muted);
+
+  font-size: 12px;
+  font-weight: 500;
+
+  text-align: left;
+
+  transition:
+    color var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast);
 }
 
 .navItem i {
-  font-size: 15px;
   flex-shrink: 0;
+
+  width: 18px;
+
+  font-size: 16px;
+
+  text-align: center;
 }
+
+.navItem:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.navItem.active {
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+
+  color: var(--accent-3);
+}
+
+/* =========================================================
+   COLLAPSED SIDEBAR
+   ========================================================= */
+
+.sidebar.collapsed .logo {
+  align-items: center;
+
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.sidebar.collapsed .logoFull {
+  display: none;
+}
+
+.sidebar.collapsed .logoShort {
+  display: inline;
+}
+
+.sidebar.collapsed .logoSub {
+  display: none;
+}
+
+.sidebar.collapsed .toggleBtn {
+  position: static;
+
+  margin: 10px auto 0;
+}
+
+.sidebar.collapsed .navLabel {
+  display: none;
+}
+
+.sidebar.collapsed .navItem {
+  justify-content: center;
+
+  padding: 0;
+}
+
+.sidebar.collapsed .navText {
+  display: none;
+}
+
+.sidebar.collapsed .historyPanel {
+  display: none;
+}
+
+/* =========================================================
+   HISTORY
+   ========================================================= */
 
 .historyPanel {
   margin-top: auto;
-  padding: 14px 18px 0;
-  border-top: 0.5px solid var(--border-subtle);
+
+  padding-top: 18px;
+
+  border-top: 1px solid var(--border-subtle);
+
+  overflow: hidden;
 }
 
 .historyLabel {
-  font-size: 10px;
-  letter-spacing: 0.1em;
+  margin: 0 8px 10px;
+
   color: var(--text-faint);
+
+  font-family: var(--font-mono);
+  font-size: 9px;
+
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  margin-bottom: 8px;
 }
 
 .historyEmpty {
-  font-size: 11px;
+  padding: 0 8px;
+
   color: var(--text-faint);
+
+  font-size: 11px;
 }
 
 .historyItem {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--text-faint);
-  background: none;
+
   width: 100%;
+
+  gap: 7px;
+
+  padding: 6px 8px;
+
+  background: transparent;
+
+  border-radius: var(--radius-sm);
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+
   text-align: left;
-  padding: 4px 0;
+
   white-space: nowrap;
+
   overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.15s;
+
+  transition:
+    background var(--transition-fast),
+    color var(--transition-fast);
 }
 
 .historyItem:hover {
-  color: var(--accent-2);
+  background: var(--bg-hover);
+  color: var(--text-primary);
 }
 
 .historyItem i {
-  font-size: 11px;
   flex-shrink: 0;
+
+  font-size: 11px;
+}
+
+.historyText {
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+/* =========================================================
+   MOBILE OVERLAY
+   ========================================================= */
+
+.overlay {
+  display: none;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 220px;
+    min-width: 220px;
+  }
+
+  .sidebar.collapsed {
+    width: 64px;
+    min-width: 64px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: min(280px, 82vw);
+    min-width: min(280px, 82vw);
+
+    transform: translateX(-100%);
+
+    box-shadow: var(--shadow-md);
+  }
+
+  .sidebar.collapsed {
+    width: min(280px, 82vw);
+    min-width: min(280px, 82vw);
+
+    transform: translateX(-100%);
+  }
+
+  .sidebar.mobileOpen,
+  .sidebar.collapsed.mobileOpen {
+    transform: translateX(0);
+  }
+
+  .sidebar.collapsed .logo {
+    align-items: flex-start;
+
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .sidebar.collapsed .logoFull {
+    display: inline;
+  }
+
+  .sidebar.collapsed .logoShort {
+    display: none;
+  }
+
+  .sidebar.collapsed .logoSub {
+    display: block;
+  }
+
+  .sidebar.collapsed .navLabel {
+    display: block;
+  }
+
+  .sidebar.collapsed .navItem {
+    justify-content: flex-start;
+
+    padding: 0 10px;
+  }
+
+  .sidebar.collapsed .navText {
+    display: inline;
+  }
+
+  .sidebar.collapsed .historyPanel {
+    display: block;
+  }
+
+  .sidebar.collapsed .toggleBtn {
+    display: none;
+  }
+
+  .mobileClose {
+    display: flex;
+  }
+
+  .overlay {
+    display: block;
+
+    position: fixed;
+    inset: 0;
+
+    z-index: 90;
+
+    background: rgba(0, 0, 0, 0.55);
+
+    backdrop-filter: blur(2px);
+  }
 }

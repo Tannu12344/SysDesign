@@ -7,31 +7,67 @@ interface TopBarProps {
   loading: boolean
   onQueryChange: (q: string) => void
   onGenerate: () => void
+  onOpenSidebar: () => void
 }
 
-export default function TopBar({ query, loading, onQueryChange, onGenerate }: TopBarProps) {
+export default function TopBar({
+  query,
+  loading,
+  onQueryChange,
+  onGenerate,
+  onOpenSidebar,
+}: TopBarProps) {
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault()
         inputRef.current?.focus()
       }
     }
+
     window.addEventListener('keydown', handler)
-    return () => window.removeEventListener('keydown', handler)
+
+    return () => {
+      window.removeEventListener('keydown', handler)
+    }
   }, [])
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !loading) onGenerate()
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && !loading && query.trim()) {
+      onGenerate()
+    }
+  }
+
+  const handleProductClick = (product: string) => {
+    if (!loading) {
+      onQueryChange(product)
+    }
   }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.topbar}>
+
+        {/* Mobile sidebar button */}
+        <button
+          type="button"
+          className={styles.menuBtn}
+          onClick={onOpenSidebar}
+          aria-label="Open navigation"
+          title="Open navigation"
+        >
+          <i className="ti ti-menu-2" aria-hidden="true" />
+        </button>
+
+        {/* Search */}
         <div className={styles.searchWrap}>
-          <i className="ti ti-search" aria-hidden="true" />
+          <i
+            className={`ti ti-search ${styles.searchIcon}`}
+            aria-hidden="true"
+          />
+
           <input
             ref={inputRef}
             className={styles.searchInput}
@@ -41,34 +77,53 @@ export default function TopBar({ query, loading, onQueryChange, onGenerate }: To
             onChange={e => onQueryChange(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={loading}
+            aria-label="System design product"
           />
-          <kbd className={styles.kbd}>⌘K</kbd>
+
+          <kbd className={styles.kbd}>
+            <span className={styles.kbdDesktop}>⌘K</span>
+            <span className={styles.kbdWindows}>Ctrl K</span>
+          </kbd>
         </div>
+
+        {/* Generate */}
         <button
+          type="button"
           className={styles.genBtn}
           onClick={onGenerate}
           disabled={loading || !query.trim()}
         >
           {loading ? (
             <>
-              <span className={styles.spinner} />
-              Generating...
+              <span
+                className={styles.spinner}
+                aria-hidden="true"
+              />
+              <span>Generating...</span>
             </>
           ) : (
-            <>Generate <i className="ti ti-arrow-right" aria-hidden="true" /></>
+            <>
+              <span>Generate</span>
+              <i
+                className="ti ti-arrow-right"
+                aria-hidden="true"
+              />
+            </>
           )}
         </button>
       </div>
 
-      <div className={styles.chips}>
-        {PRODUCTS.slice(0, 14).map(p => (
+      {/* Example products */}
+      <div className={styles.chips} aria-label="Example products">
+        {PRODUCTS.slice(0, 14).map(product => (
           <button
-            key={p}
+            key={product}
+            type="button"
             className={styles.chip}
-            onClick={() => { onQueryChange(p); }}
+            onClick={() => handleProductClick(product)}
             disabled={loading}
           >
-            {p}
+            {product}
           </button>
         ))}
       </div>
