@@ -1,8 +1,13 @@
+/* =========================================================
+   WRAPPER
+   ========================================================= */
+
 .wrap {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
   padding: 28px 28px 40px;
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -13,13 +18,19 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-
   gap: 24px;
 
   margin-bottom: 28px;
   padding-bottom: 20px;
 
   border-bottom: 1px solid var(--border-subtle);
+
+  min-width: 0;
+}
+
+.header > div:first-child {
+  min-width: 0;
+  flex: 1;
 }
 
 .product {
@@ -33,12 +44,13 @@
   color: var(--text-primary);
 
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .tagline {
   max-width: 700px;
 
-  margin-top: 6px;
+  margin: 6px 0 0;
 
   font-size: 14px;
   line-height: 1.55;
@@ -46,7 +58,12 @@
   color: var(--text-muted);
 
   overflow-wrap: anywhere;
+  word-break: break-word;
 }
+
+/* =========================================================
+   HEADER ACTIONS
+   ========================================================= */
 
 .actions {
   display: flex;
@@ -56,18 +73,15 @@
   gap: 10px;
 
   flex-shrink: 0;
+  min-width: 0;
 }
-
-/* =========================================================
-   BADGE
-   ========================================================= */
 
 .badge {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
 
   min-height: 28px;
-  max-width: 100%;
 
   padding: 4px 10px;
 
@@ -83,21 +97,12 @@
   font-weight: 500;
 
   white-space: nowrap;
-
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-
-/* =========================================================
-   COPY BUTTON
-   ========================================================= */
 
 .copyBtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  flex-shrink: 0;
 
   gap: 6px;
 
@@ -128,9 +133,7 @@
 
 .copyBtn:hover {
   color: var(--text-primary);
-
   background: var(--bg-elevated);
-
   border-color: var(--border-strong);
 }
 
@@ -165,8 +168,6 @@
 
   gap: 8px;
 
-  min-width: 0;
-
   margin-bottom: 14px;
 
   font-size: 11px;
@@ -177,6 +178,8 @@
   text-transform: uppercase;
 
   color: var(--text-faint);
+
+  min-width: 0;
 }
 
 .sectionTitle::after {
@@ -184,16 +187,15 @@
 
   flex: 1;
 
-  min-width: 20px;
-
   height: 1px;
 
   background: var(--border-subtle);
+
+  min-width: 20px;
 }
 
 .sectionTitle i {
   flex-shrink: 0;
-
   font-size: 14px;
 }
 
@@ -217,10 +219,6 @@
   font-weight: 500;
 
   white-space: nowrap;
-}
-
-.sectionTitle .count {
-  order: unset;
 }
 
 /* =========================================================
@@ -250,13 +248,11 @@
 .reqGrid {
   display: grid;
 
-  width: 100%;
-  min-width: 0;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 
   gap: 14px;
+
+  width: 100%;
 }
 
 .reqCard {
@@ -268,6 +264,8 @@
 
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
+
+  box-sizing: border-box;
 
   transition:
     border-color 0.15s ease,
@@ -293,8 +291,6 @@
 
   letter-spacing: 0.06em;
   text-transform: uppercase;
-
-  overflow-wrap: anywhere;
 }
 
 .reqList {
@@ -312,8 +308,6 @@
 .reqList li {
   position: relative;
 
-  min-width: 0;
-
   padding-left: 16px;
 
   color: var(--text-muted);
@@ -329,7 +323,6 @@
   content: "—";
 
   position: absolute;
-
   left: 0;
   top: 0;
 
@@ -343,13 +336,12 @@
 .servicesGrid {
   display: grid;
 
-  width: 100%;
-  min-width: 0;
-
   grid-template-columns:
-    repeat(auto-fit, minmax(220px, 1fr));
+    repeat(auto-fill, minmax(min(200px, 100%), 1fr));
 
-  gap: 12px;
+  gap: 10px;
+
+  width: 100%;
 }
 
 .servicesGrid > * {
@@ -387,7 +379,6 @@
 
 .infraBlock:hover {
   background: var(--bg-elevated);
-
   border-color: var(--border-mid);
   border-left-color: var(--accent-2);
 }
@@ -412,7 +403,6 @@
   text-align: center;
 
   overflow-wrap: anywhere;
-  word-break: break-word;
 }
 
 /* =========================================================
@@ -432,15 +422,12 @@
     font-size: 24px;
   }
 
-  .reqGrid {
-    gap: 12px;
+  .tagline {
+    font-size: 13.5px;
   }
 
-  .servicesGrid {
-    grid-template-columns:
-      repeat(3, minmax(0, 1fr));
-
-    gap: 10px;
+  .reqGrid {
+    gap: 12px;
   }
 }
 
@@ -453,13 +440,25 @@
     padding: 24px 20px 32px;
   }
 
+  /*
+   * Header becomes vertical.
+   *
+   * Product
+   * Description
+   * Actions
+   */
   .header {
     flex-direction: column;
+    align-items: stretch;
 
     gap: 16px;
 
     margin-bottom: 24px;
     padding-bottom: 18px;
+  }
+
+  .header > div:first-child {
+    width: 100%;
   }
 
   .product {
@@ -470,39 +469,29 @@
     max-width: 100%;
 
     font-size: 13px;
+    line-height: 1.6;
   }
 
   .actions {
     width: 100%;
 
     justify-content: flex-start;
+    align-items: center;
 
     flex-wrap: wrap;
+  }
+
+  .badge,
+  .copyBtn {
+    min-height: 34px;
   }
 
   .reqGrid {
     grid-template-columns: 1fr;
   }
 
-  .servicesGrid {
-    grid-template-columns:
-      repeat(2, minmax(0, 1fr));
-
-    gap: 10px;
-  }
-
   .section {
     margin-bottom: 28px;
-  }
-
-  .overviewText {
-    max-width: 100%;
-  }
-
-  .infraBlock {
-    padding: 16px 18px;
-
-    font-size: 13px;
   }
 }
 
@@ -510,7 +499,7 @@
    MOBILE
    ========================================================= */
 
-@media (max-width: 600px) {
+@media (max-width: 560px) {
   .wrap {
     padding: 20px 16px 28px;
   }
@@ -524,7 +513,7 @@
 
   .product {
     font-size: 21px;
-
+    line-height: 1.25;
     letter-spacing: -0.025em;
   }
 
@@ -535,26 +524,31 @@
     line-height: 1.6;
   }
 
+  /*
+   * Actions wrap instead of overflowing.
+   */
   .actions {
     display: flex;
-
-    align-items: stretch;
-    justify-content: flex-start;
-
     width: 100%;
 
-    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: stretch;
 
     gap: 8px;
   }
 
   .badge {
     min-width: 0;
-    max-width: calc(100% - 44px);
+    max-width: 100%;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .copyBtn {
-    min-height: 34px;
+    min-height: 36px;
+
+    padding: 6px 12px;
   }
 
   .section {
@@ -567,21 +561,17 @@
     margin-bottom: 12px;
 
     font-size: 10px;
+
+    letter-spacing: 0.07em;
   }
 
   .sectionTitle::after {
-    min-width: 12px;
+    min-width: 10px;
   }
 
   .overviewText {
     font-size: 13px;
     line-height: 1.75;
-  }
-
-  .reqGrid {
-    grid-template-columns: 1fr;
-
-    gap: 10px;
   }
 
   .reqCard {
@@ -598,13 +588,6 @@
 
   .reqList li {
     font-size: 12.5px;
-    line-height: 1.6;
-  }
-
-  .servicesGrid {
-    grid-template-columns: 1fr;
-
-    gap: 10px;
   }
 
   .infraBlock {
@@ -635,17 +618,25 @@
     font-size: 19px;
   }
 
-  .actions {
-    width: 100%;
+  .tagline {
+    font-size: 12.5px;
+  }
 
+  /*
+   * Stack the header actions on very small screens
+   * so nothing gets squeezed or clipped.
+   */
+  .actions {
     flex-direction: column;
     align-items: stretch;
+
+    width: 100%;
   }
 
   .badge,
   .copyBtn {
     width: 100%;
-    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .copyBtn {
@@ -659,16 +650,6 @@
   .reqCard {
     padding: 14px;
   }
-
-  .overviewText {
-    font-size: 12.5px;
-  }
-
-  .infraBlock {
-    padding: 14px;
-
-    font-size: 12.5px;
-  }
 }
 
 /* =========================================================
@@ -680,9 +661,5 @@
   .infraBlock,
   .copyBtn {
     transition: none;
-  }
-
-  .reqCard:hover {
-    transform: none;
   }
 }
