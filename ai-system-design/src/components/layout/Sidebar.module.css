@@ -144,32 +144,22 @@
 .navItem {
   display: flex;
   align-items: center;
-
   width: 100%;
   min-height: 38px;
-
   gap: 11px;
-
   padding: 0 10px;
-
   background: transparent;
-
   border: 1px solid transparent;
   border-radius: var(--radius-md);
-
-  color: var(--text-muted);
-
+  color: var(--text-secondary);
   font-size: 12px;
   font-weight: 500;
-
   text-align: left;
-
   transition:
     color var(--transition-fast),
     background var(--transition-fast),
     border-color var(--transition-fast);
 }
-
 .navItem i {
   flex-shrink: 0;
 
@@ -276,27 +266,16 @@
 .historyItem {
   display: flex;
   align-items: center;
-
   width: 100%;
-
   gap: 7px;
-
   padding: 6px 8px;
-
   background: transparent;
-
   border-radius: var(--radius-sm);
-
-  color: var(--text-muted);
-
+  color: var(--text-secondary);
   font-size: 11px;
-
   text-align: left;
-
   white-space: nowrap;
-
   overflow: hidden;
-
   transition:
     background var(--transition-fast),
     color var(--transition-fast);

@@ -229,3 +229,129 @@
   border-radius: var(--radius-md);
   padding: 16px;
 }
+@media (max-width: 768px) {
+  .wrap {
+    padding: 24px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .servicesGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .estimateGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tradeoffCard {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  .tradeoffDecision {
+    white-space: normal;
+  }
+
+  .highlightBlock,
+  .serviceResp,
+  .tradeoffRationale,
+  .oneLiner {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: 20px 16px;
+  }
+
+  .systemName {
+    font-size: 19px;
+  }
+
+  .oneLiner {
+    font-size: 12.5px;
+  }
+
+  .header {
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+  }
+
+  .actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .badge,
+  .newBtn {
+    font-size: 11px;
+  }
+
+  .grid2 {
+    grid-template-columns: 1fr;
+  }
+
+  .servicesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .estimateGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .serviceCard {
+    padding: 13px;
+  }
+
+  .highlightBlock {
+    padding: 14px;
+    font-size: 12.5px;
+  }
+
+  .tradeoffCard {
+    grid-template-columns: 1fr;
+    padding: 13px 14px;
+  }
+
+  .tradeoffDecision {
+    white-space: normal;
+    font-size: 12.5px;
+  }
+
+  .tradeoffRationale {
+    font-size: 12px;
+  }
+
+  .list li {
+    font-size: 12.5px;
+  }
+
+  .angleCard {
+    padding: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .newBtn {
+    transition: none;
+  }
+}

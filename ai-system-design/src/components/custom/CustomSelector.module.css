@@ -34,12 +34,25 @@
   resize: vertical;
   min-height: 100px;
   line-height: 1.6;
-  transition: border-color 0.15s;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.textarea:hover {
+  border-color: var(--border-strong);
 }
 
-.textarea::placeholder { color: var(--text-faint); }
-.textarea:focus { border-color: var(--accent-2); }
+.textarea:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
 
+.textarea:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
 .charCount {
   font-size: 11px;
   color: var(--text-faint);
@@ -47,7 +60,6 @@
   text-align: right;
   margin-bottom: 14px;
 }
-
 .genBtn {
   display: flex;
   align-items: center;
@@ -63,10 +75,8 @@
   transition: background 0.15s, opacity 0.15s;
   width: 100%;
 }
-
 .genBtn:hover:not(:disabled) { background: var(--accent-1); }
 .genBtn:disabled { opacity: 0.4; cursor: not-allowed; }
-
 .spinner {
   width: 14px;
   height: 14px;
@@ -76,9 +86,7 @@
   animation: spin 0.7s linear infinite;
   display: inline-block;
 }
-
 @keyframes spin { to { transform: rotate(360deg); } }
-
 .sectionLabel {
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -89,14 +97,12 @@
   align-items: center;
   gap: 8px;
 }
-
 .sectionLabel::after {
   content: '';
   flex: 1;
   height: 0.5px;
   background: var(--border-subtle);
 }
-
 .examplesGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -122,3 +128,22 @@
 }
 
 .exampleChip:disabled { opacity: 0.4; cursor: not-allowed; }
+@media (max-width: 768px) {
+  .wrap {
+    padding: 24px;
+  }
+
+  .examplesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 19px;
+  }
+}

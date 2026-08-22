@@ -24,7 +24,7 @@ export default function InterviewSelector({ loading, onGenerate }: Props) {
     <div className={s.wrap}>
       <i className={`ti ti-help-circle ${s.icon}`} aria-hidden="true" />
       <div>
-        <h2 className={s.title}>Interview Mode</h2>
+        
         <p className={s.desc}>
           Pick a product and your target level — get 10 calibrated interview
           questions, follow-ups, tradeoff questions, and answer frameworks.

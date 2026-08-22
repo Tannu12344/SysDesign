@@ -1,7 +1,7 @@
 .wrap { padding: 32px; max-width: 560px; }
 
 .title { font-size: 18px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; margin-bottom: 6px; }
-.desc { font-size: 13px; color: var(--text-faint); margin-bottom: 32px; line-height: 1.6; }
+.desc { font-size: 13px; color: var(--text-secondary); margin-bottom: 32px; line-height: 1.6; }
 
 .section { margin-bottom: 32px; }
 
@@ -23,7 +23,7 @@
 .field { margin-bottom: 18px; }
 
 .fieldLabel { font-size: 12px; color: var(--text-secondary); margin-bottom: 6px; font-weight: 500; }
-.fieldHint  { font-size: 11px; color: var(--text-faint); margin-top: 5px; line-height: 1.5; }
+.fieldHint  { font-size: 11px; color: var(--text-muted); margin-top: 5px; line-height: 1.5; }
 
 .input {
   width: 100%;
@@ -68,7 +68,7 @@
 
 .toggleInfo { display: flex; flex-direction: column; gap: 2px; }
 .toggleLabel { font-size: 13px; color: var(--text-primary); }
-.toggleDesc  { font-size: 11px; color: var(--text-faint); }
+.toggleDesc  { font-size: 11px; color: var(--text-muted); }
 
 .toggleSwitch {
   width: 36px;
@@ -113,7 +113,7 @@
   border-radius: var(--radius-md);
   padding: 8px 16px;
   font-size: 13px;
-  color: #a05050;
+  color:  #d07070;
   transition: all 0.15s;
   margin-bottom: 8px;
 }

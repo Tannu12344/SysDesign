@@ -8,7 +8,6 @@
   text-align: center;
   padding: 40px;
 }
-
 .icon {
   font-size: 48px;
   color: var(--border-mid);
@@ -18,15 +17,16 @@
 .title {
   font-size: 18px;
   font-weight: 500;
-  color: var(--text-faint);
+  color: var(--text-primary);
 }
 
 .desc {
   font-size: 14px;
-  color: var(--text-faint);
+  color: var(--text-secondary);
   max-width: 380px;
   line-height: 1.7;
 }
+
 
 .hints {
   display: flex;
@@ -41,7 +41,7 @@
   align-items: center;
   gap: 6px;
   font-size: 12px;
-  color: var(--border-strong);
+  color: var(--text-secondary);
   background: var(--bg-surface);
   border: 0.5px solid var(--border-subtle);
   border-radius: 20px;
