@@ -1,7 +1,3 @@
-/* =========================================================
-   HISTORY / SAVED PAGE
-   Responsive / Dark / Warm UI
-   ========================================================= */
 
 .wrap {
   display: flex;
@@ -65,7 +61,7 @@
   border: 1px solid var(--border-mid);
   border-radius: 10px;
 
-  color: var(--text-faint);
+  color: var(--text-secondary);
 
   font-family: var(--font-mono);
   font-size: 12px;
@@ -289,7 +285,7 @@
 .cardSubtitle {
   margin-bottom: 12px;
 
-  color: var(--text-faint);
+  color: var(--text-secondary);
 
   font-size: 12px;
   line-height: 1.5;
@@ -319,7 +315,7 @@
 .timestamp {
   min-width: 0;
 
-  color: var(--text-faint);
+  color: var(--text-muted);
 
   font-family: var(--font-mono);
   font-size: 11px;
@@ -356,7 +352,7 @@
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
 
-  color: var(--text-faint);
+  color: var(--text-secondary);
 
   font-size: 13px;
 

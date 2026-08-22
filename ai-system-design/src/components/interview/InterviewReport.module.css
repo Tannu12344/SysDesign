@@ -1,15 +1,13 @@
 /* =========================================================
    INTERVIEW MODE
-   Responsive / Dark / Warm UI
+   Responsive / Dark / Warm UI / WCAG AA
    ========================================================= */
 
 .wrap {
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-
   padding: 28px;
-
   overflow-wrap: anywhere;
 }
 
@@ -21,28 +19,20 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-
   gap: 20px;
-
   margin-bottom: 24px;
   padding-bottom: 18px;
-
   border-bottom: 1px solid var(--border-subtle);
 }
 
 .product {
   min-width: 0;
-
   margin: 0;
-
   font-size: 22px;
   font-weight: 700;
   line-height: 1.25;
-
   color: var(--text-primary);
-
   letter-spacing: -0.03em;
-
   overflow-wrap: anywhere;
 }
 
@@ -50,44 +40,33 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-
   gap: 8px;
-
   margin-top: 4px;
-
   font-size: 13px;
   line-height: 1.5;
 
-  color: var(--text-muted);
+  /* Improved from --text-muted */
+  color: var(--text-secondary);
 }
 
 .levelBadge {
   display: inline-flex;
   align-items: center;
-
   flex-shrink: 0;
-
   padding: 3px 9px;
-
   background: var(--accent-bg);
-
   border: 1px solid var(--accent-border);
   border-radius: var(--radius-sm);
-
   color: var(--accent-3);
-
   font-family: var(--font-mono);
   font-size: 11px;
-
   white-space: nowrap;
 }
 
 .actions {
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   flex-shrink: 0;
 }
 
@@ -95,23 +74,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   gap: 5px;
-
   min-height: 32px;
-
   padding: 6px 13px;
-
   background: var(--bg-surface);
-
   border: 1px solid var(--border-mid);
   border-radius: var(--radius-md);
 
-  color: var(--text-muted);
+  /* Improved from --text-muted */
+  color: var(--text-secondary);
 
   font-size: 12px;
   font-weight: 500;
-
   white-space: nowrap;
 
   transition:
@@ -122,9 +96,7 @@
 
 .newBtn:hover {
   color: var(--text-primary);
-
   background: var(--bg-elevated);
-
   border-color: var(--border-strong);
 }
 
@@ -144,33 +116,26 @@
 .focusAreas {
   display: flex;
   align-items: center;
-
   gap: 6px;
-
   flex-wrap: wrap;
-
   margin-bottom: 24px;
 }
 
 .focusTag {
   display: inline-flex;
   align-items: center;
-
   max-width: 100%;
-
   padding: 3px 10px;
-
   background: var(--bg-elevated);
-
   border: 1px solid var(--border-mid);
   border-radius: 14px;
 
-  color: var(--text-faint);
+  /* Improved from --text-faint */
+  color: var(--text-secondary);
 
   font-family: var(--font-mono);
   font-size: 11px;
   line-height: 1.4;
-
   overflow-wrap: anywhere;
 }
 
@@ -181,47 +146,39 @@
 .section {
   width: 100%;
   min-width: 0;
-
   margin-bottom: 28px;
 }
 
 .sectionTitle {
   display: flex;
   align-items: center;
-
   gap: 8px;
-
   width: 100%;
   min-width: 0;
-
   margin-bottom: 14px;
 
-  color: var(--text-faint);
+  /* Improved from --text-faint */
+  color: var(--text-secondary);
 
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
-
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .sectionTitle::after {
   content: "";
-
   flex: 1;
-
   min-width: 15px;
-
   height: 1px;
-
   background: var(--border-subtle);
 }
 
 .sectionTitle i {
   flex-shrink: 0;
-
   font-size: 14px;
+  color: var(--text-secondary);
 }
 
 /* =========================================================
@@ -231,16 +188,11 @@
 .questionCard {
   width: 100%;
   min-width: 0;
-
   padding: 16px;
-
   margin-bottom: 10px;
-
   background: var(--bg-surface);
-
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-
   cursor: pointer;
 
   transition:
@@ -251,9 +203,7 @@
 
 .questionCard:hover {
   background: var(--bg-elevated);
-
   border-color: var(--border-mid);
-
   transform: translateY(-1px);
 }
 
@@ -269,19 +219,17 @@
 .questionHeader {
   display: flex;
   align-items: flex-start;
-
   gap: 12px;
-
   width: 100%;
   min-width: 0;
 }
 
 .questionNum {
   flex-shrink: 0;
-
   margin-top: 2px;
 
-  color: var(--text-faint);
+  /* Improved from --text-faint */
+  color: var(--text-secondary);
 
   font-family: var(--font-mono);
   font-size: 11px;
@@ -290,14 +238,10 @@
 
 .questionText {
   flex: 1;
-
   min-width: 0;
-
   color: var(--text-primary);
-
   font-size: 14px;
   line-height: 1.6;
-
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -306,11 +250,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
   flex-wrap: wrap;
-
   gap: 6px;
-
   flex-shrink: 0;
 }
 
@@ -322,19 +263,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
   flex-shrink: 0;
-
   padding: 3px 8px;
-
   border: 1px solid;
-
   border-radius: var(--radius-sm);
-
   font-family: var(--font-mono);
   font-size: 10px;
   line-height: 1.3;
-
   white-space: nowrap;
 }
 
@@ -363,22 +298,18 @@
 .categoryTag {
   display: inline-flex;
   align-items: center;
-
   max-width: 100%;
-
   padding: 3px 8px;
-
   background: var(--bg-elevated);
-
   border: 1px solid var(--border-mid);
   border-radius: var(--radius-sm);
 
-  color: var(--text-faint);
+  /* Improved from --text-faint */
+  color: var(--text-secondary);
 
   font-family: var(--font-mono);
   font-size: 10px;
   line-height: 1.3;
-
   overflow-wrap: anywhere;
 }
 
@@ -389,10 +320,10 @@
 .chevron {
   flex-shrink: 0;
 
-  color: var(--text-faint);
+  /* Better visibility for the interactive indicator */
+  color: var(--text-secondary);
 
   font-size: 16px;
-
   transition: transform 0.2s ease;
 }
 
@@ -407,27 +338,23 @@
 .expandedContent {
   display: flex;
   flex-direction: column;
-
   gap: 14px;
-
   width: 100%;
   min-width: 0;
-
   margin-top: 14px;
   padding-top: 14px;
-
   border-top: 1px solid var(--border-subtle);
 }
 
 .subLabel {
   margin-bottom: 8px;
 
-  color: var(--text-faint);
+  /* Improved from --text-faint */
+  color: var(--text-secondary);
 
   font-size: 10px;
-
+  font-weight: 600;
   line-height: 1.4;
-
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
@@ -439,40 +366,32 @@
 .list {
   display: flex;
   flex-direction: column;
-
   gap: 7px;
-
   margin: 0;
   padding: 0;
-
   list-style: none;
 }
 
 .list li {
   position: relative;
-
   min-width: 0;
-
   padding-left: 16px;
 
-  color: var(--text-muted);
+  /* Improved from --text-muted */
+  color: var(--text-secondary);
 
   font-size: 12.5px;
   line-height: 1.6;
-
   overflow-wrap: anywhere;
   word-break: break-word;
 }
 
 .list li::before {
   content: "—";
-
   position: absolute;
-
   left: 0;
   top: 0;
-
-  color: var(--accent-border);
+  color: var(--accent-3);
 }
 
 /* =========================================================
@@ -482,39 +401,30 @@
 .tradeoffCard {
   width: 100%;
   min-width: 0;
-
   padding: 14px 16px;
-
   margin-bottom: 8px;
-
   background: var(--bg-surface);
-
   border: 1px solid var(--border-subtle);
   border-left: 2px solid var(--accent-2);
-
   border-radius: var(--radius-md);
-
   overflow-wrap: anywhere;
 }
 
 .tradeoffQ {
   margin-bottom: 6px;
-
   color: var(--accent-3);
-
   font-size: 13px;
   font-weight: 500;
   line-height: 1.5;
-
   overflow-wrap: anywhere;
 }
 
 .tradeoffA {
-  color: var(--text-muted);
+  /* Improved from --text-muted */
+  color: var(--text-secondary);
 
   font-size: 12.5px;
   line-height: 1.65;
-
   overflow-wrap: anywhere;
   word-break: break-word;
 }
@@ -525,13 +435,9 @@
 
 .grid2 {
   display: grid;
-
   width: 100%;
   min-width: 0;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
 }
 
@@ -542,14 +448,10 @@
 .card {
   width: 100%;
   min-width: 0;
-
   padding: 16px;
-
   background: var(--bg-surface);
-
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-
   overflow-wrap: anywhere;
 }
 
@@ -586,9 +488,7 @@
 
   .header {
     flex-direction: column;
-
     gap: 14px;
-
     margin-bottom: 22px;
     padding-bottom: 16px;
   }
@@ -603,9 +503,7 @@
 
   .actions {
     width: 100%;
-
     justify-content: flex-start;
-
     flex-wrap: wrap;
   }
 
@@ -627,23 +525,18 @@
 
   .questionText {
     order: 1;
-
     flex-basis: calc(100% - 28px);
-
     font-size: 13px;
   }
 
   .questionMeta {
     order: 2;
-
     width: 100%;
-
     justify-content: flex-start;
   }
 
   .chevron {
     order: 3;
-
     margin-left: auto;
   }
 
@@ -663,21 +556,17 @@
 
   .header {
     gap: 12px;
-
     margin-bottom: 20px;
   }
 
   .product {
     font-size: 20px;
-
     letter-spacing: -0.025em;
   }
 
   .subtitle {
     align-items: flex-start;
-
     gap: 6px;
-
     font-size: 12px;
   }
 
@@ -691,21 +580,17 @@
 
   .newBtn {
     min-height: 34px;
-
     padding: 6px 11px;
-
     font-size: 11px;
   }
 
   .focusAreas {
     gap: 5px;
-
     margin-bottom: 20px;
   }
 
   .focusTag {
     padding: 3px 8px;
-
     font-size: 10px;
   }
 
@@ -715,9 +600,7 @@
 
   .sectionTitle {
     gap: 7px;
-
     margin-bottom: 12px;
-
     font-size: 10px;
   }
 
@@ -727,7 +610,6 @@
 
   .questionCard {
     padding: 13px;
-
     margin-bottom: 8px;
   }
 
@@ -741,7 +623,6 @@
 
   .questionText {
     flex-basis: calc(100% - 24px);
-
     font-size: 12.5px;
     line-height: 1.65;
   }
@@ -761,14 +642,12 @@
 
   .expandedContent {
     gap: 12px;
-
     margin-top: 12px;
     padding-top: 12px;
   }
 
   .subLabel {
     margin-bottom: 7px;
-
     font-size: 9px;
   }
 
@@ -778,7 +657,6 @@
 
   .list li {
     padding-left: 14px;
-
     font-size: 12px;
     line-height: 1.65;
   }
@@ -821,7 +699,6 @@
 
   .actions {
     width: 100%;
-
     flex-direction: column;
     align-items: stretch;
   }
@@ -844,7 +721,6 @@
 
   .questionText {
     flex-basis: calc(100% - 22px);
-
     font-size: 12px;
   }
 

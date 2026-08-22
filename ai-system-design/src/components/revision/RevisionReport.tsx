@@ -1,4 +1,5 @@
 import type { RevisionReport as Report } from '../../types/report'
+
 import s from './RevisionReport.module.css'
 
 const DURATION_LABEL: Record<string, string> = {
@@ -12,100 +13,267 @@ interface Props {
   onReset: () => void
 }
 
-export default function RevisionReport({ report, onReset }: Props) {
+export default function RevisionReport({
+  report,
+  onReset,
+}: Props) {
   const handlePrint = () => window.print()
 
   return (
-    <div className={`${s.wrap} fade-in`}>
+    <main className={`${s.wrap} fade-in`}>
+
+      {/* =====================================================
+          HEADER
+          ===================================================== */}
+
       <div className={s.header}>
         <div>
-          <h1 className={s.product}>{report.product}</h1>
+          <h1 className={s.product}>
+            {report.product}
+          </h1>
         </div>
+
         <div className={s.actions}>
-          <span className={s.durationBadge}>{DURATION_LABEL[report.duration]}</span>
-          <button className={s.actionBtn} onClick={handlePrint}>
-            <i className="ti ti-printer" aria-hidden="true" /> Print / PDF
+          <span className={s.durationBadge}>
+            {DURATION_LABEL[report.duration]}
+          </span>
+
+          <button
+            type="button"
+            className={s.actionBtn}
+            onClick={handlePrint}
+          >
+            <i
+              className="ti ti-printer"
+              aria-hidden="true"
+            />
+            Print / PDF
           </button>
-          <button className={s.actionBtn} onClick={onReset}>
-            <i className="ti ti-refresh" aria-hidden="true" /> New
+
+          <button
+            type="button"
+            className={s.actionBtn}
+            onClick={onReset}
+          >
+            <i
+              className="ti ti-refresh"
+              aria-hidden="true"
+            />
+            New
           </button>
         </div>
       </div>
 
-      <div className={s.oneLiner}>{report.oneLiner}</div>
+      {/* =====================================================
+          SUMMARY
+          ===================================================== */}
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-bulb" aria-hidden="true" />Core Decisions</div>
+      <p className={s.oneLiner}>
+        {report.oneLiner}
+      </p>
+
+      {/* =====================================================
+          CORE DECISIONS
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-bulb"
+            aria-hidden="true"
+          />
+          Core Decisions
+        </h2>
+
         <ul className={s.list}>
-          {report.coreDecisions.map((d, i) => <li key={i}>{d}</li>)}
+          {report.coreDecisions.map((d, i) => (
+            <li key={i}>{d}</li>
+          ))}
         </ul>
-      </div>
+      </section>
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-components" aria-hidden="true" />Key Services</div>
+      {/* =====================================================
+          KEY SERVICES
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-components"
+            aria-hidden="true"
+          />
+          Key Services
+        </h2>
+
         <div className={s.serviceGrid}>
           {report.keyServices.map((svc, i) => (
-            <div key={i} className={s.serviceChip}>
-              <div className={s.serviceName}>{svc.name}</div>
-              <div className={s.serviceNote}>{svc.note}</div>
+            <div
+              key={i}
+              className={s.serviceChip}
+            >
+              <div className={s.serviceName}>
+                {svc.name}
+              </div>
+
+              <div className={s.serviceNote}>
+                {svc.note}
+              </div>
             </div>
           ))}
         </div>
-      </div>
+      </section>
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-stack-2" aria-hidden="true" />Storage & Infra Choices</div>
+      {/* =====================================================
+          STORAGE & INFRASTRUCTURE
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-stack-2"
+            aria-hidden="true"
+          />
+          Storage &amp; Infra Choices
+        </h2>
+
         <div className={s.choiceGrid}>
+
           <div className={s.choiceCard}>
-            <div className={s.choiceLabel}>Database</div>
-            <div className={s.choiceValue}>{report.databaseChoice.choice}</div>
-            <div className={s.choiceReason}>{report.databaseChoice.reason}</div>
+            <div className={s.choiceLabel}>
+              Database
+            </div>
+
+            <div className={s.choiceValue}>
+              {report.databaseChoice.choice}
+            </div>
+
+            <div className={s.choiceReason}>
+              {report.databaseChoice.reason}
+            </div>
           </div>
+
           <div className={s.choiceCard}>
-            <div className={s.choiceLabel}>Caching</div>
-            <div className={s.choiceValue}>{report.cachingChoice.choice}</div>
-            <div className={s.choiceReason}>{report.cachingChoice.reason}</div>
+            <div className={s.choiceLabel}>
+              Caching
+            </div>
+
+            <div className={s.choiceValue}>
+              {report.cachingChoice.choice}
+            </div>
+
+            <div className={s.choiceReason}>
+              {report.cachingChoice.reason}
+            </div>
           </div>
+
           <div className={s.choiceCard}>
-            <div className={s.choiceLabel}>Messaging</div>
-            <div className={s.choiceValue}>{report.messagingChoice.choice}</div>
-            <div className={s.choiceReason}>{report.messagingChoice.reason}</div>
+            <div className={s.choiceLabel}>
+              Messaging
+            </div>
+
+            <div className={s.choiceValue}>
+              {report.messagingChoice.choice}
+            </div>
+
+            <div className={s.choiceReason}>
+              {report.messagingChoice.reason}
+            </div>
           </div>
+
         </div>
-      </div>
+      </section>
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-trending-up" aria-hidden="true" />Scaling Strategies</div>
+      {/* =====================================================
+          SCALING
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-trending-up"
+            aria-hidden="true"
+          />
+          Scaling Strategies
+        </h2>
+
         <ul className={s.list}>
-          {report.scalingStrategies.map((sc, i) => <li key={i}>{sc}</li>)}
+          {report.scalingStrategies.map((sc, i) => (
+            <li key={i}>{sc}</li>
+          ))}
         </ul>
-      </div>
+      </section>
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-api" aria-hidden="true" />API Highlights</div>
+      {/* =====================================================
+          API
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-api"
+            aria-hidden="true"
+          />
+          API Highlights
+        </h2>
+
         <ul className={s.list}>
-          {report.apiHighlights.map((a, i) => <li key={i}>{a}</li>)}
+          {report.apiHighlights.map((a, i) => (
+            <li key={i}>{a}</li>
+          ))}
         </ul>
-      </div>
+      </section>
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-message-question" aria-hidden="true" />Likely Questions</div>
+      {/* =====================================================
+          LIKELY QUESTIONS
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-message-question"
+            aria-hidden="true"
+          />
+          Likely Questions
+        </h2>
+
         {report.likelyQuestions.map((qa, i) => (
-          <div key={i} className={s.qaCard}>
-            <div className={s.qaQ}>{qa.question}</div>
-            <div className={s.qaA}>{qa.answer}</div>
-          </div>
-        ))}
-      </div>
+          <article
+            key={i}
+            className={s.qaCard}
+          >
+            <h3 className={s.qaQ}>
+              {qa.question}
+            </h3>
 
-      <div className={s.section}>
-        <div className={s.sectionTitle}><i className="ti ti-star" aria-hidden="true" />Final Takeaways</div>
+            <p className={s.qaA}>
+              {qa.answer}
+            </p>
+          </article>
+        ))}
+      </section>
+
+      {/* =====================================================
+          FINAL TAKEAWAYS
+          ===================================================== */}
+
+      <section className={s.section}>
+        <h2 className={s.sectionTitle}>
+          <i
+            className="ti ti-star"
+            aria-hidden="true"
+          />
+          Final Takeaways
+        </h2>
+
         <div className={s.takeawaysCard}>
           <ul className={s.list}>
-            {report.finalTakeaways.map((t, i) => <li key={i}>{t}</li>)}
+            {report.finalTakeaways.map((t, i) => (
+              <li key={i}>{t}</li>
+            ))}
           </ul>
         </div>
-      </div>
-    </div>
+      </section>
+
+    </main>
   )
 }

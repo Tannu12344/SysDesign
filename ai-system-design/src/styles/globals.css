@@ -17,42 +17,36 @@
 
 :root {
   /* ---------- Background ---------- */
-
   --bg-base: #0f0f0d;
   --bg-surface: #151513;
   --bg-elevated: #1b1a17;
   --bg-hover: #22211d;
 
   /* ---------- Borders ---------- */
-
   --border-subtle: #272621;
   --border-mid: #34332d;
   --border-strong: #48463d;
 
   /* ---------- Typography ---------- */
-
   --text-primary: #ebe7dc;
   --text-secondary: #aaa69b;
-  --text-muted: #77746b;
-  --text-faint: #514f48;
+  --text-muted: #9b978c;
+  --text-faint: #8b877b;
 
   /* ---------- Accent ---------- */
-
   --accent-1: #d97745;
-  --accent-2: #b85d32;
+  --accent-2: #c8754c;
   --accent-3: #e7a078;
-
   --accent-bg: #241914;
   --accent-border: #523125;
+  --accent-button: #9f4f2b;
 
   /* ---------- Semantic ---------- */
-
   --success: #6f9b76;
   --warning: #c08a4c;
   --danger: #bd665b;
 
   /* ---------- Typography ---------- */
-
   --font-sans:
     Inter,
     "Helvetica Neue",
@@ -67,13 +61,11 @@
     monospace;
 
   /* ---------- Radius ---------- */
-
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
 
   /* ---------- Shadows ---------- */
-
   --shadow-sm:
     0 1px 2px rgba(0, 0, 0, 0.18),
     0 3px 10px rgba(0, 0, 0, 0.12);
@@ -82,7 +74,6 @@
     0 8px 28px rgba(0, 0, 0, 0.22);
 
   /* ---------- Motion ---------- */
-
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -103,15 +94,11 @@ html {
 
 body {
   position: relative;
-
   font-family: var(--font-sans);
-
   background: var(--bg-base);
   color: var(--text-primary);
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
   overflow: hidden;
 }
 
@@ -121,18 +108,12 @@ body {
 
 body::before {
   content: "";
-
   position: fixed;
   inset: 0;
-
   z-index: 9999;
-
   pointer-events: none;
-
   opacity: 0.035;
-
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='.5'/%3E%3C/svg%3E");
-
   mix-blend-mode: screen;
 }
 
@@ -147,7 +128,6 @@ h4,
 h5,
 h6 {
   color: var(--text-primary);
-
   font-weight: 650;
   letter-spacing: -0.02em;
 }
@@ -178,10 +158,8 @@ select {
 
 button {
   cursor: pointer;
-
   border: none;
   outline: none;
-
   color: inherit;
 }
 
@@ -190,7 +168,6 @@ textarea,
 select {
   outline: none;
   border: none;
-
   background: transparent;
   color: inherit;
 }
@@ -267,7 +244,7 @@ code {
    FOCUS
    ========================================================= */
 
-:focus-visible {
+*:focus-visible {
   outline: 2px solid var(--accent-3);
   outline-offset: 2px;
 }

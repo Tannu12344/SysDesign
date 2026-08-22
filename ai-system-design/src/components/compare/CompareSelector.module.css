@@ -1,147 +1,301 @@
 .wrap {
   display: flex;
   flex-direction: column;
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   padding: 32px;
+
   scrollbar-width: thin;
   scrollbar-color: var(--border-mid) transparent;
 }
 
+/* =========================================================
+   HEADER
+   ========================================================= */
+
 .title {
+  margin: 0 0 4px;
+
   font-size: 20px;
   font-weight: 700;
+  line-height: 1.3;
+
   color: var(--text-primary);
   letter-spacing: -0.02em;
-  margin-bottom: 4px;
 }
 
 .desc {
+  max-width: 900px;
+  margin: 0 0 28px;
+
   font-size: 13px;
-  color: var(--text-faint);
   line-height: 1.7;
-  margin-bottom: 28px;
+
+  /* Stronger than text-faint for WCAG contrast */
+  color: var(--text-secondary);
 }
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
 
 .inputRow {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   gap: 12px;
   align-items: center;
+
   margin-bottom: 24px;
 }
 
 .vsLabel {
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-faint);
+
+  color: var(--text-secondary);
   font-family: var(--font-mono);
   text-align: center;
 }
 
 .inputWrap {
   position: relative;
+
   display: flex;
   align-items: center;
+
+  min-width: 0;
 }
 
 .inputWrap > i {
   position: absolute;
   left: 12px;
-  color: var(--text-faint);
+
+  color: var(--text-secondary);
   font-size: 15px;
+
   pointer-events: none;
 }
 
 .input {
   width: 100%;
+  min-width: 0;
+
   background: var(--bg-surface);
-  border: 0.5px solid var(--border-mid);
+
+  border: 1px solid var(--border-mid);
   border-radius: var(--radius-md);
+
   padding: 10px 14px 10px 38px;
+
   font-size: 13.5px;
+  line-height: 1.5;
+
   color: var(--text-primary);
-  transition: border-color 0.15s;
+
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.input::placeholder { color: var(--text-faint); }
-.input:focus { border-color: var(--accent-2); }
+.input::placeholder {
+  color: var(--text-muted);
+}
+
+.input:hover {
+  border-color: var(--border-strong);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--accent-2);
+}
+
+.input:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   COMPARE BUTTON
+   ========================================================= */
 
 .genBtn {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  width: 100%;
+  min-height: 44px;
+
   gap: 6px;
+
   background: var(--accent-2);
+
+  border: 1px solid transparent;
   border-radius: var(--radius-md);
+
   padding: 11px 24px;
+
   font-size: 13px;
   font-weight: 500;
-  color: #e8d8ff;
+  line-height: 1.4;
+
+  color: var(--text-primary);
+
   margin-bottom: 32px;
-  transition: background 0.15s, opacity 0.15s;
-  width: 100%;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
-.genBtn:hover:not(:disabled) { background: var(--accent-1); }
-.genBtn:disabled { opacity: 0.4; cursor: not-allowed; }
+.genBtn:hover:not(:disabled) {
+  background: var(--accent-1);
+  transform: translateY(-1px);
+}
+
+.genBtn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.genBtn:focus-visible {
+  outline: 2px solid var(--accent-3);
+  outline-offset: 2px;
+}
+
+.genBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* =========================================================
+   SPINNER
+   ========================================================= */
 
 .spinner {
+  display: inline-block;
+
   width: 14px;
   height: 14px;
+
+  flex-shrink: 0;
+
+  border: 2px solid rgba(232, 216, 255, 0.35);
+  border-top-color: var(--text-primary);
   border-radius: 50%;
-  border: 2px solid rgba(232,216,255,0.3);
-  border-top-color: #e8d8ff;
+
   animation: spin 0.7s linear infinite;
-  display: inline-block;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   QUICK COMPARE SECTION
+   ========================================================= */
 
 .sectionLabel {
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  margin-bottom: 14px;
   display: flex;
   align-items: center;
+
   gap: 8px;
+
+  margin: 0 0 14px;
+
+  font-size: 11px;
+  font-weight: 500;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  /* Don't use text-faint here */
+  color: var(--text-secondary);
 }
 
 .sectionLabel::after {
   content: '';
+
   flex: 1;
-  height: 0.5px;
+  height: 1px;
+
   background: var(--border-subtle);
 }
 
-.categorySection { margin-bottom: 24px; }
+/* =========================================================
+   CATEGORY
+   ========================================================= */
+
+.categorySection {
+  margin-bottom: 24px;
+}
 
 .categoryLabel {
+  margin: 0 0 8px;
+
   font-size: 10px;
-  color: var(--text-faint);
+  font-weight: 500;
+
+  color: var(--text-secondary);
+
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  margin-bottom: 8px;
+
   font-family: var(--font-mono);
 }
 
+/* =========================================================
+   QUICK COMPARE GRID
+   ========================================================= */
+
 .pairsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(180px, 1fr));
+
   gap: 8px;
 }
 
+/* =========================================================
+   QUICK COMPARE BUTTON
+   ========================================================= */
+
 .pairChip {
+  width: 100%;
+  min-height: 40px;
+
   background: var(--bg-surface);
-  border: 0.5px solid var(--border-subtle);
+
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
+
   padding: 10px 14px;
+
   font-size: 12.5px;
-  color: var(--text-muted);
+  line-height: 1.4;
+
+  color: var(--text-secondary);
+
   text-align: left;
-  transition: all 0.15s;
+
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .pairChip:hover:not(:disabled) {
@@ -150,4 +304,86 @@
   background: var(--accent-bg);
 }
 
-.pairChip:disabled { opacity: 0.4; cursor: not-allowed; }
+.pairChip:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+.pairChip:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .wrap {
+    padding: 24px;
+  }
+
+  .inputRow {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .vsLabel {
+    padding: 0;
+  }
+
+  .pairsGrid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+  .wrap {
+    padding: 20px 16px;
+  }
+
+  .title {
+    font-size: 19px;
+  }
+
+  .desc {
+    font-size: 12.5px;
+  }
+
+  .pairsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .genBtn {
+    min-height: 44px;
+  }
+
+  .pairChip {
+    min-height: 44px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .genBtn,
+  .pairChip {
+    transition: none;
+  }
+
+  .genBtn:hover:not(:disabled) {
+    transform: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
+}

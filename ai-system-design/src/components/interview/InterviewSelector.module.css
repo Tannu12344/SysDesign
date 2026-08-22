@@ -59,16 +59,13 @@
 
 .desc {
   max-width: 380px;
-
   margin-top: -8px;
-
-  color: var(--text-faint);
-
+  color: var(--text-secondary);
   font-size: 13px;
   line-height: 1.7;
-
   overflow-wrap: anywhere;
 }
+
 
 /* =========================================================
    FORM
@@ -92,18 +89,13 @@
 
 .fieldLabel {
   display: block;
-
   margin-bottom: 8px;
-
-  color: var(--text-faint);
-
+  color: var(--text-secondary);
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
-
   letter-spacing: 0.08em;
   text-transform: uppercase;
-
   text-align: left;
 }
 
@@ -120,19 +112,16 @@
   width: 100%;
 }
 
-.searchWrap > i {
+.searchWrap > * i {
   position: absolute;
-
   left: 14px;
-
-  color: var(--text-faint);
-
+  color: var(--text-secondary);
   font-size: 16px;
-
   pointer-events: none;
-
   z-index: 1;
 }
+
+
 
 .searchInput {
   width: 100%;
@@ -157,7 +146,7 @@
 }
 
 .searchInput::placeholder {
-  color: var(--text-faint);
+  color: var(--text-muted);
 }
 
 .searchInput:hover {
@@ -195,26 +184,20 @@
 
 .levelBtn {
   min-width: 0;
-
   padding: 10px 8px;
-
   background: var(--bg-surface);
-
   border: 1px solid var(--border-mid);
   border-radius: var(--radius-md);
-
-  color: var(--text-muted);
-
+  color: var(--text-secondary);
   font-size: 12.5px;
   line-height: 1.4;
-
   white-space: nowrap;
-
   transition:
     border-color 0.15s ease,
     color 0.15s ease,
     background 0.15s ease;
 }
+
 
 .levelBtn:hover {
   border-color: var(--accent-border);
@@ -228,14 +211,13 @@
   outline: 2px solid var(--accent-2);
   outline-offset: 2px;
 }
-
 .levelBtn.active {
   border-color: var(--accent-1);
-
   background: var(--accent-bg);
-
   color: var(--accent-3);
 }
+
+
 
 /* =========================================================
    CHIPS
@@ -255,21 +237,14 @@
 
 .chip {
   max-width: 100%;
-
   padding: 4px 13px;
-
   background: var(--bg-elevated);
-
   border: 1px solid var(--border-mid);
   border-radius: 20px;
-
-  color: var(--text-muted);
-
+  color: var(--text-secondary);
   font-size: 12px;
   line-height: 1.5;
-
   overflow-wrap: anywhere;
-
   transition:
     border-color 0.15s ease,
     color 0.15s ease,
